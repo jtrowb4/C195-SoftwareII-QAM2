@@ -1,8 +1,6 @@
 package main;
 /**
  * class Main.java
- * version 1.0.0 11/06/2021
- * version 1.1.0 11/08/2021
  */
 
 /**
@@ -23,7 +21,7 @@ public class Main extends Application {
     public void start(Stage stage) throws Exception{
 
         Parent root = FXMLLoader.load(getClass().getResource("/view/LoginScreen.fxml"));
-        stage.setTitle("QKM2_InventoryManagementSystem");
+        stage.setTitle("QAM2_JavaApplication");
         stage.setScene(new Scene(root, 800, 600));
         stage.show();
     }

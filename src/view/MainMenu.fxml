@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainMenu">
+    <children>
+        <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-border-color: black; -fx-border-radius: 10; -fx-border-width: 2;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+            <left>
+                <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="380.0" style="-fx-border-color: black; -fx-border-radius: 10; -fx-border-insets: 2;" BorderPane.alignment="CENTER">
+                    <center>
+                        <TableView fx:id="mainAllPartsTable" prefHeight="300.0" prefWidth="320.0">
+                            <columns>
+                                <TableColumn fx:id="mainPartIDCol" maxWidth="290.0" prefWidth="65.0" text="Part ID" />
+                                <TableColumn fx:id="mainPartNameCol" maxWidth="290.0" text="Part Name" />
+                                <TableColumn fx:id="mainPartInvCol" maxWidth="290.0" prefWidth="95.0" text="Inventory Level" />
+                                <TableColumn fx:id="mainPartPriceCol" maxWidth="290.0" prefWidth="115.0" text="Price/Cost per Unit" />
+                            </columns>
+                            <opaqueInsets>
+                                <Insets />
+                            </opaqueInsets>
+                        </TableView>
+                    </center>
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                    <top>
+                        <HBox alignment="BOTTOM_LEFT" prefHeight="40.0" prefWidth="350.0" BorderPane.alignment="CENTER">
+                            <children>
+                                <Label alignment="TOP_LEFT" opacity="0.8" style="-fx-translate-x: 15; -fx-translate-y: -5;" text="Parts">
+                                    <font>
+                                        <Font name="Droid Sans Bold" size="20.0" />
+                                    </font>
+                                    <opaqueInsets>
+                                        <Insets />
+                                    </opaqueInsets>
+                                </Label>
+                                <TextField fx:id="mainPartSearch" alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#searchPart" prefHeight="24.0" prefWidth="205.0" promptText="Search by PartID or Name" style="-fx-translate-x: 100; -fx-translate-y: -5;">
+                                    <font>
+                                        <Font name="Droid Sans" size="14.0" />
+                                    </font>
+                                </TextField>
+                            </children></HBox>
+                    </top>
+                    <bottom>
+                        <HBox alignment="BOTTOM_RIGHT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="40.0" prefWidth="350.0" spacing="15.0" BorderPane.alignment="CENTER">
+                            <children>
+                                <Button fx:id="addPartButton" mnemonicParsing="false" onAction="#loadAddPart" prefHeight="25.0" prefWidth="55.0" text="Add">
+                                    <font>
+                                        <Font name="Droid Sans" size="12.0" />
+                                    </font>
+                                </Button>
+                                <Button fx:id="modifyPartButton" mnemonicParsing="false" onAction="#loadModifyPart" prefHeight="25.0" prefWidth="55.0" text="Modify">
+                                    <font>
+                                        <Font name="Droid Sans" size="12.0" />
+                                    </font></Button>
+                                <Button fx:id="deletePartButton" mnemonicParsing="false" onAction="#deletePart" prefHeight="25.0" prefWidth="55.0" text="Delete">
+                                    <font>
+                                        <Font name="Droid Sans" size="12.0" />
+                                    </font></Button>
+                            </children>
+                            <opaqueInsets>
+                                <Insets />
+                            </opaqueInsets>
+                            <BorderPane.margin>
+                                <Insets right="10.0" />
+                            </BorderPane.margin>
+                            <padding>
+                                <Insets bottom="5.0" />
+                            </padding></HBox>
+                    </bottom>
+                    <left>
+                        <VBox prefHeight="200.0" prefWidth="10.0" BorderPane.alignment="CENTER" />
+                    </left>
+                    <right>
+                        <VBox prefHeight="200.0" prefWidth="10.0" BorderPane.alignment="CENTER" />
+                    </right>
+                </BorderPane>
+            </left>
+            <top>
+                <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" opacity="0.8" prefHeight="60.0" prefWidth="720.0">
+                    <children>
+                        <Label alignment="CENTER" contentDisplay="TOP" depthTest="ENABLE" opacity="0.8" style="-fx-translate-x: 10;" text="Inventory Management System" textAlignment="CENTER" underline="true">
+                            <font>
+                                <Font name="Droid Sans" size="20.0" />
+                            </font>
+                            <opaqueInsets>
+                                <Insets />
+                            </opaqueInsets>
+                            <cursor>
+                                <Cursor fx:constant="DEFAULT" />
+                            </cursor>
+                            <HBox.margin>
+                                <Insets top="10.0" />
+                            </HBox.margin>
+                        </Label>
+                    </children>
+                    <opaqueInsets>
+                        <Insets left="10.0" />
+                    </opaqueInsets></HBox>
+            </top>
+            <bottom>
+                <HBox alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="60.0" prefWidth="720.0" BorderPane.alignment="CENTER">
+                    <children>
+                        <Button fx:id="logoutButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#toTitleScreen" prefHeight="30.0" prefWidth="120.0" text="Logout" textAlignment="CENTER" underline="true">
+                            <font>
+                                <Font name="Droid Sans" size="18.0" />
+                            </font>
+                        </Button>
+                    </children>
+                    <BorderPane.margin>
+                        <Insets bottom="20.0" />
+                    </BorderPane.margin></HBox>
+            </bottom>
+            <right>
+                <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="380.0" style="-fx-border-color: black; -fx-border-radius: 10; -fx-border-insets: 2; -fx-translate-x: -20;" BorderPane.alignment="CENTER">
+                    <center>
+                        <TableView fx:id="mainAllProductsTable" prefHeight="300.0" prefWidth="320.0">
+                            <columns>
+                                <TableColumn fx:id="mainProductIDCol" maxWidth="290.0" prefWidth="65.0" text="Product ID" />
+                                <TableColumn fx:id="mainProductNameCol" maxWidth="290.0" prefWidth="86.0" text="Product Name" />
+                                <TableColumn fx:id="mainProductInvCol" maxWidth="290.0" prefWidth="91.0" text="Inventory Level" />
+                                <TableColumn fx:id="mainProductPriceCol" maxWidth="290.0" prefWidth="113.0" text="Price/Cost per Unit" />
+                            </columns>
+                            <opaqueInsets>
+                                <Insets />
+                            </opaqueInsets>
+                        </TableView>
+                    </center>
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                    <top>
+                        <HBox alignment="BOTTOM_LEFT" prefHeight="40.0" prefWidth="350.0" BorderPane.alignment="CENTER">
+                            <children>
+                                <Label alignment="TOP_LEFT" opacity="0.8" style="-fx-translate-x: 15; -fx-translate-y: -5;" text="Products">
+                                    <font>
+                                        <Font name="Droid Sans Bold" size="20.0" />
+                                    </font>
+                                    <opaqueInsets>
+                                        <Insets />
+                                    </opaqueInsets>
+                                </Label>
+                                <TextField fx:id="mainProductSearch" alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#searchProduct" prefHeight="24.0" prefWidth="205.0" promptText="Search by ProductID or Name" style="-fx-translate-x: 65; -fx-translate-y: -5;">
+                                    <font>
+                                        <Font name="Droid Sans" size="14.0" />
+                                    </font>
+                                </TextField>
+                            </children></HBox>
+                    </top>
+                    <bottom>
+                        <HBox alignment="BOTTOM_RIGHT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="40.0" prefWidth="350.0" spacing="15.0" BorderPane.alignment="CENTER">
+                            <children>
+                                <Button fx:id="addProductButton" mnemonicParsing="false" onAction="#loadAddProduct" prefHeight="25.0" prefWidth="55.0" text="Add">
+                                    <font>
+                                        <Font name="Droid Sans" size="12.0" />
+                                    </font>
+                                </Button>
+                                <Button fx:id="modifyProductButton" mnemonicParsing="false" onAction="#loadModifyProduct" prefHeight="25.0" prefWidth="55.0" text="Modify">
+                                    <font>
+                                        <Font name="Droid Sans" size="12.0" />
+                                    </font></Button>
+                                <Button fx:id="deleteProductButton" mnemonicParsing="false" onAction="#deleteProduct" prefHeight="25.0" prefWidth="55.0" text="Delete">
+                                    <font>
+                                        <Font name="Droid Sans" size="12.0" />
+                                    </font></Button>
+                            </children>
+                            <opaqueInsets>
+                                <Insets />
+                            </opaqueInsets>
+                            <BorderPane.margin>
+                                <Insets right="10.0" />
+                            </BorderPane.margin>
+                            <padding>
+                                <Insets bottom="5.0" />
+                            </padding></HBox>
+                    </bottom>
+                    <left>
+                        <VBox prefHeight="200.0" prefWidth="10.0" BorderPane.alignment="CENTER" />
+                    </left>
+                    <right>
+                        <VBox prefHeight="200.0" prefWidth="10.0" BorderPane.alignment="CENTER" />
+                    </right>
+                    <BorderPane.margin>
+                        <Insets />
+                    </BorderPane.margin>
+                </BorderPane>
+            </right>
+            <padding>
+                <Insets left="10.0" right="10.0" />
+            </padding></BorderPane>
+    </children>
+</AnchorPane>
+

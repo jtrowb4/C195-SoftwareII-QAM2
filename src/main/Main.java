@@ -1,5 +1,5 @@
 package main;
-
+import dao.DBConnector;
 /**
  * class Main.java
  */
@@ -31,6 +31,7 @@ public class Main extends Application {
      * Initial Launch of application - QAM2_JavaApplication
      */
     public static void main(String[] args){
+        DBConnector.openConnection();
         launch(args);
     }
 }

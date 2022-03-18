@@ -3,7 +3,6 @@ package dao;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Customer;
-import model.User;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

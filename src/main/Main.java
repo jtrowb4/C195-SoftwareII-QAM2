@@ -1,5 +1,5 @@
 package main;
-import dao.DBConnector;
+
 /**
  * class Main.java
  */
@@ -14,6 +14,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 public class Main extends Application {
     /**
      *Utilize the start method and set the stage
@@ -21,7 +24,10 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception{
 
-        Parent root = FXMLLoader.load(getClass().getResource("/view/LoginScreen.fxml"));
+        Locale currentLocale = Locale.getDefault();
+        ResourceBundle resource = ResourceBundle.getBundle("utility.LanguageBundle", currentLocale);
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        Parent root = fxmlLoader.load(getClass().getResource("/view/LoginScreen.fxml"), resource);
         stage.setTitle("QAM2_JavaApplication");
         stage.setScene(new Scene(root, 800, 600));
         stage.show();
@@ -31,9 +37,6 @@ public class Main extends Application {
      * Initial Launch of application - QAM2_JavaApplication
      */
     public static void main(String[] args){
-        DBConnector.openConnection();
         launch(args);
     }
 }
-
-// comment added to test VM to local

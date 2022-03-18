@@ -1,6 +1,6 @@
 package controller;
 
-import dao.DBConnector;
+
 import dao.UserDAO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -12,9 +12,13 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import model.User;
 
-import java.io.IOException;
+import javax.swing.*;
 import java.net.URL;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.TimeZone;
 
 public class LoginScreen implements Initializable {
 
@@ -27,6 +31,7 @@ public class LoginScreen implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
+        zoneIDText.setText("'" + ZoneId.systemDefault() + " " + ZoneId.systemDefault().getRules().getOffset(Instant.now()) + "'");
         System.out.println("QAM2_JavaApplication v1.0.0 Loaded");
     }
 
@@ -43,7 +48,7 @@ public class LoginScreen implements Initializable {
                Parent root = FXMLLoader.load(getClass().getResource("/view/MainMenu.fxml"));
                Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
                Scene scene = new Scene(root, 800, 600);
-               stage.setTitle("QAM2_InventoryManagementSystem");
+               stage.setTitle("QAM2_JavaApplication");
                stage.setScene(scene);
                stage.show();
            }
@@ -58,11 +63,18 @@ public class LoginScreen implements Initializable {
             System.out.println("Error: " + e.getMessage());
 
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error Code 400: Bad Request.");
-            alert.setHeaderText("Exception has occurred.");
-            alert.setContentText("Login Failed: User Name or Password is invalid.");
-
-            alert.showAndWait();
+            if(Locale.getDefault().getLanguage().equals("en")) {
+                alert.setTitle("Error Code 400: Bad Request.");
+                alert.setHeaderText("Exception has occurred.");
+                alert.setContentText("Login Failed: User Name or Password is invalid.");
+                alert.showAndWait();
+            }
+            else if(Locale.getDefault().getLanguage().equals("fr")){
+                alert.setTitle("Code D'erreur 400: Mauvaise Demande.");
+                alert.setHeaderText("Une exception s'est produite.");
+                alert.setContentText("Échec de la connexion : le nom d'utilisateur ou le mot de passe n'est pas valide.");
+                alert.showAndWait();
+            }
 
         }
     }

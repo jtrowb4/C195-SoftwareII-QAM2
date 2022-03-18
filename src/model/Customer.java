@@ -17,11 +17,11 @@ public class Customer {
     private int customerID;
     private String customerName;
     private String address;
-    private int postalCode;
+    private String postalCode;
     private String phoneNumber;
     private int divisionID;
 
-    public Customer (int customerID, String customerName, String address, int postalCode, String phoneNumber, int divisionID) {
+    public Customer (int customerID, String customerName, String address, String postalCode, String phoneNumber, int divisionID) {
         this.customerID = customerID;
         this.customerName = customerName;
         this.address = address;
@@ -68,15 +68,15 @@ public class Customer {
     }
 
     /**
-     * @return the customerID
+     * @return the postalCode
      */
-    public int getPostalCode() {
+    public String getPostalCode() {
         return postalCode;
     }
     /**
      * @param postalCode to set
      */
-    public void setPostalCode(int postalCode) {
+    public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
     }
     /**
@@ -90,5 +90,17 @@ public class Customer {
      */
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+    /**
+     * @return the divisionID
+     */
+    public int getDivisionID() {
+        return divisionID;
+    }
+    /**
+     * @param divisionID to set
+     */
+    public void setDivisionID(int divisionID) {
+        this.divisionID = divisionID;
     }
 }

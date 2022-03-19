@@ -27,6 +27,4 @@ public class UserDAO {
         DBConnector.closeConnection();
         return null;
     }
-
-
 }

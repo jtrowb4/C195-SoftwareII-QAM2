@@ -11,13 +11,17 @@ public class CustomerDAO {
 
     private static ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
 
-    public static ObservableList<Customer> displayAllCustomers() throws SQLException, Exception{
+    public static ObservableList<Customer> displayAllCustomers() throws SQLException, Exception {
 
+
+        if (allCustomers.size() > 0){
+            allCustomers.clear();
+        }
         DBConnector.openConnection();
         String loginQuery = "SELECT * FROM client_schedule.customers";
         DBQuery.makeQuery(loginQuery);
         ResultSet result = DBQuery.getResult();
-        while(result.next()){
+        while (result.next()) {
             int customerID = result.getInt("Customer_ID");
             String customerName = result.getString("Customer_Name");
             String address = result.getString("Address");
@@ -30,7 +34,24 @@ public class CustomerDAO {
         return allCustomers;
     }
 
-    public static void addCustomer(Customer customer){ allCustomers.add(customer);
+    public static void addCustomer(Customer customer) {
+        allCustomers.add(customer);
+
     }
 
+    public static void insertCustomer(Customer customer) {
+        DBConnector.openConnection();
+        String addCustomerQuery = "INSERT INTO client_schedule.customers (Customer_ID, Customer_Name, Address, Postal_Code, " +
+                "Phone, Division_ID) VALUES('"
+                + customer.getCustomerID() + "', '"
+                + customer.getCustomerName() + "', '"
+                + customer.getAddress() + "', '"
+                + customer.getPostalCode() + "', '"
+                + customer.getPhoneNumber() + "', '"
+                + customer.getDivisionID() + "')";
+        DBQuery.makeQuery(addCustomerQuery);
+        DBConnector.closeConnection();
+    }
 }
+
+

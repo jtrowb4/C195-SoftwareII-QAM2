@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddCustomer">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddAppointment">
     <BorderPane layoutY="51.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="450.0" style="-fx-border-color: black; -fx-border-radius: 10; -fx-border-width: 3;" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
         <center>
             <GridPane alignment="CENTER" hgap="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="338.0" prefWidth="450.0" style="-fx-border-color: black; -fx-border-radius: 10; -fx-border-width: 2;" vgap="17.0" BorderPane.alignment="TOP_CENTER">
@@ -20,10 +20,10 @@
                     <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" valignment="CENTER" />
                     <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" valignment="CENTER" />
                     <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" valignment="CENTER" />
-               <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" valignment="CENTER" />
+                    <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" valignment="CENTER" />
                 </rowConstraints>
                 <children>
-                    <Label style="-fx-translate-x: 20;" text="Customer ID#">
+                    <Label style="-fx-translate-x: 20;" text="Appointment ID #">
                         <font>
                             <Font name="Droid Sans" size="14.0" />
                         </font>
@@ -78,17 +78,17 @@
                         <opaqueInsets>
                             <Insets />
                         </opaqueInsets>
-                  <GridPane.margin>
-                     <Insets left="10.0" />
-                  </GridPane.margin>
+                        <GridPane.margin>
+                            <Insets left="10.0" />
+                        </GridPane.margin>
                     </Label>
                     <Label style="-fx-translate-x: 20;" text="Last Name" GridPane.rowIndex="2">
                         <font>
                             <Font name="Droid Sans" size="14.0" />
                         </font>
-                  <GridPane.margin>
-                     <Insets />
-                  </GridPane.margin>
+                        <GridPane.margin>
+                            <Insets />
+                        </GridPane.margin>
                     </Label>
                     <TextField fx:id="customerIDText" disable="true" editable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="200.0" promptText="Auto-Generated" GridPane.columnIndex="1">
                         <font>
@@ -136,38 +136,38 @@
                         <font>
                             <Font name="Droid Sans" size="12.0" />
                         </font></TextField>
-               <ComboBox fx:id="countryCombo" onAction="#countrySelection" prefWidth="110.0" GridPane.rowIndex="4">
-                  <GridPane.margin>
-                     <Insets left="100.0" right="5.0" />
-                  </GridPane.margin></ComboBox>
-               <ComboBox fx:id="stateCombo" maxWidth="-Infinity" prefHeight="25.0" prefWidth="81.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
-                  <GridPane.margin>
-                     <Insets left="119.0" />
-                  </GridPane.margin>
-               </ComboBox>
-                  <HBox alignment="BOTTOM_RIGHT" spacing="20.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
-                      <children>
-                          <Button fx:id="saveButton" defaultButton="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#save" prefHeight="25.0" prefWidth="55.0" text="Save">
-                              <font>
-                                  <Font name="Droid Sans" size="12.0" />
-                              </font>
-                        <HBox.margin>
-                           <Insets bottom="2.0" />
-                        </HBox.margin>
-                          </Button>
-                          <Button fx:id="cancelButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#cancel" prefHeight="25.0" prefWidth="55.0" text="Cancel">
-                              <font>
-                                  <Font name="Droid Sans" size="12.0" />
-                              </font>
-                        <HBox.margin>
-                           <Insets bottom="2.0" />
-                        </HBox.margin>
-                          </Button>
-                      </children>
-                  <GridPane.margin>
-                     <Insets right="17.0" />
-                  </GridPane.margin>
-                  </HBox>
+                    <ComboBox fx:id="countryCombo" onAction="#countrySelection" prefWidth="110.0" GridPane.rowIndex="4">
+                        <GridPane.margin>
+                            <Insets left="100.0" right="5.0" />
+                        </GridPane.margin></ComboBox>
+                    <ComboBox fx:id="stateCombo" maxWidth="-Infinity" prefHeight="25.0" prefWidth="81.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                        <GridPane.margin>
+                            <Insets left="119.0" />
+                        </GridPane.margin>
+                    </ComboBox>
+                    <HBox alignment="BOTTOM_RIGHT" spacing="20.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                        <children>
+                            <Button fx:id="saveButton" defaultButton="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#save" prefHeight="25.0" prefWidth="55.0" text="Save">
+                                <font>
+                                    <Font name="Droid Sans" size="12.0" />
+                                </font>
+                                <HBox.margin>
+                                    <Insets bottom="2.0" />
+                                </HBox.margin>
+                            </Button>
+                            <Button fx:id="cancelButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#cancel" prefHeight="25.0" prefWidth="55.0" text="Cancel">
+                                <font>
+                                    <Font name="Droid Sans" size="12.0" />
+                                </font>
+                                <HBox.margin>
+                                    <Insets bottom="2.0" />
+                                </HBox.margin>
+                            </Button>
+                        </children>
+                        <GridPane.margin>
+                            <Insets right="17.0" />
+                        </GridPane.margin>
+                    </HBox>
                 </children>
                 <BorderPane.margin>
                     <Insets />
@@ -177,7 +177,7 @@
         <top>
             <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" opacity="0.8" prefHeight="60.0" prefWidth="600.0">
                 <children>
-                    <Label alignment="TOP_CENTER" contentDisplay="TOP" depthTest="ENABLE" opacity="0.8" style="-fx-translate-x: 10;" text="Add Customer" textAlignment="CENTER" underline="true">
+                    <Label alignment="TOP_CENTER" contentDisplay="TOP" depthTest="ENABLE" opacity="0.8" style="-fx-translate-x: 10;" text="Add Appointment" textAlignment="CENTER" underline="true">
                         <opaqueInsets>
                             <Insets />
                         </opaqueInsets>
@@ -192,12 +192,12 @@
                 <opaqueInsets>
                     <Insets left="10.0" />
                 </opaqueInsets>
-            <BorderPane.margin>
-               <Insets />
-            </BorderPane.margin>
-            <padding>
-               <Insets bottom="5.0" left="5.0" />
-            </padding></HBox>
+                <BorderPane.margin>
+                    <Insets />
+                </BorderPane.margin>
+                <padding>
+                    <Insets bottom="5.0" left="5.0" />
+                </padding></HBox>
         </top>
     </BorderPane>
 </AnchorPane>

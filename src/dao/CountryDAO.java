@@ -13,9 +13,12 @@ public class CountryDAO {
 
     public static ObservableList<Country> displayAllCountries() throws SQLException, Exception{
 
+        if (allCountries.size() > 0){
+            allCountries.clear();
+        }
         DBConnector.openConnection();
-        String loginQuery = "SELECT * FROM client_schedule.countries";
-        DBQuery.makeQuery(loginQuery);
+        String CountryQuery = "SELECT * FROM client_schedule.countries";
+        DBQuery.makeQuery(CountryQuery);
         ResultSet result = DBQuery.getResult();
         while(result.next()){
             int countryID = result.getInt("Country_ID");

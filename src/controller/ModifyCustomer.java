@@ -6,11 +6,8 @@ import dao.FirstLevelDivisionDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import model.Country;
@@ -23,27 +20,26 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
-public class AddCustomer implements Initializable {
-
-
+public class ModifyCustomer implements Initializable {
+    public Button saveButton;
+    public Button cancelButton;
     public TextField customerIDText;
     public TextField customerAddressText;
     public TextField postalText;
+    public TextField phoneText;
     public TextField nameFirstText;
     public TextField nameLastText;
     public ComboBox<Country> countryCombo;
     public ComboBox<FirstLevelDivision> stateCombo;
-    public Button saveButton;
-    public Button cancelButton;
-    public TextField phoneText;
 
+    public static ObservableList<Customer> incomingCustomer = FXCollections.observableArrayList();
     /**
      * Initialize scene
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        System.out.println("Loaded Add Customer");
+        System.out.println("Loaded Modify Customer");
         try {
             countryCombo.setItems(CountryDAO.displayAllCountries());
             countryCombo.setVisibleRowCount(5);
@@ -55,36 +51,62 @@ public class AddCustomer implements Initializable {
         }
     }
 
-    /**
-     * @param actionEvent cancel button action - closes AddCustomer form.
-     * @throws IOException scene will not load or other exception
-     */
-    public void cancel(ActionEvent actionEvent) throws Exception {
-        //confirm cancel
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Confirm");
-        alert.setHeaderText("Cancel Creating New Customer?");
-        alert.setContentText("Press OK to Exit. Press Cancel to continue editing Customer.");
+    public void loadSelectedCustomer(Customer customer) throws Exception {
 
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK) {
+        incomingCustomer.add(0, customer);
 
-            CustomerDAO.displayAllCustomers();
-            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-            ;
-            stage.close();
+        // Load Part
+        int customerID = customer.getCustomerID();
+        customerIDText.setText("" + customerID + "");
+
+        String firstName = customer.getCustomerName().substring(0, customer.getCustomerName().indexOf(" "));
+        nameFirstText.setText(firstName);
+
+        String lastName = customer.getCustomerName().substring(customer.getCustomerName().indexOf(" ") + 1);
+        nameLastText.setText(lastName);
+
+        String address = customer.getAddress();
+        customerAddressText.setText(address);
+
+        String postalCode = customer.getPostalCode();
+        postalText.setText(postalCode);
+
+        String phoneNumber = customer.getPhoneNumber();
+        phoneText.setText(phoneNumber);
+
+        int division = customer.getDivisionID();
+        for (FirstLevelDivision fld: stateCombo.getItems()){
+
+            if(division == fld.getDivisionID()){
+                stateCombo.setValue(fld);
+                if(division > 0 && division < 55)
+                {
+                    countryCombo.getSelectionModel().select(0);
+                }
+                else if (division >= 55 && division < 100)
+                {
+                    countryCombo.getSelectionModel().select(2);
+                }
+                else
+                {
+                    countryCombo.getSelectionModel().select(1);
+                }
+                break;
+            }
 
         }
+
     }
+
     /**
      * @param actionEvent save button action
      *                    creates and saves new customer object
      *                    customer is then added to the DB and displayed in CustomerMenu
      * @throws IOException scene will not load or other exception
      */
-    public void save(ActionEvent actionEvent) throws IOException {
+    public void save(ActionEvent actionEvent) {
         // save  things. First it creates a new customer. Second it loads back to the DB.
-        //Validate fields for New Customer
+        //Validate fields for the Customer
         ObservableList<Customer> saveCustomer = FXCollections.observableArrayList();
 
         try {
@@ -97,9 +119,7 @@ public class AddCustomer implements Initializable {
                     (postalText.getText().isBlank() || postalText.getText().isEmpty())) {
                 throw new Exception("Input Required: All fields must contain valid inputs.");
             }
-
-            //get customer info
-            int customerID = 0;
+            int customerID = Integer.parseInt(customerIDText.getText());
             String customerName = nameFirstText.getText() + " " + nameLastText.getText();
             String customerAddress  = customerAddressText.getText();
             String postalCode = postalText.getText();
@@ -133,30 +153,23 @@ public class AddCustomer implements Initializable {
             String phoneNumberFormatted = phoneNumber.substring(0,3) + "-" + phoneNumber.substring(3,6) + "-" + phoneNumber.substring(6,10);
 
             //Create Object
-               Customer customer = new Customer(customerID, customerName, customerAddress,
-                        postalCode, phoneNumberFormatted, firstLevel);
+            Customer customer = new Customer(customerID, customerName, customerAddress,
+                    postalCode, phoneNumberFormatted, firstLevel);
             //Save Local
-                saveCustomer.add(customer);
-
+            saveCustomer.add(customer);
 
             // Confirm Saving Object
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Confirm");
-            alert.setHeaderText("Save New Customer?");
+            alert.setHeaderText("Save Changes to Customer?");
             alert.setContentText("Press OK to save Customer: " + customerName + ". Press Cancel to continue editing Customer.");
 
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK) {
 
-                CustomerDAO.insertCustomer(saveCustomer.get(0));
+                CustomerDAO.updateCustomer(saveCustomer.get(0));
                 CustomerDAO.displayAllCustomers();
-                // System.out.println(CustomerDAO.displayAllCustomers());
-
-               // Parent root = FXMLLoader.load(getClass().getResource("/view/CustomerMenu.fxml"));
                 Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-               // Scene scene = new Scene(root, 800, 600);
-               // stage.setTitle("QKM2_JavaApplication");
-                //stage.setScene(scene);
                 stage.close();
 
             } else {
@@ -177,8 +190,30 @@ public class AddCustomer implements Initializable {
 
     }
 
+    /**
+     * @param actionEvent cancel button action - closes ModifyCustomer form.
+     * @throws IOException scene will not load or other exception
+     */
+    public void cancel(ActionEvent actionEvent) throws Exception {
+        //confirm cancel
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirm");
+        alert.setHeaderText("Cancel Modifying Customer?");
+        alert.setContentText("Press OK to Exit. Press Cancel to continue editing Customer.");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+
+            CustomerDAO.displayAllCustomers();
+            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            stage.close();
+
+        }
+    }
+
     public void countrySelection(ActionEvent actionEvent) throws Exception {
         int countryInt = countryCombo.getSelectionModel().getSelectedIndex();
-        stateCombo.setItems(FirstLevelDivisionDAO.displayDivisions(countryInt + 1));
+        stateCombo.setItems(FirstLevelDivisionDAO.displayDivisions(countryInt+1));
+
     }
 }

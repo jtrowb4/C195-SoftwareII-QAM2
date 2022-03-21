@@ -27,7 +27,7 @@ public class Main extends Application {
         Locale currentLocale = Locale.getDefault();
         ResourceBundle resource = ResourceBundle.getBundle("utility.LanguageBundle", currentLocale);
         FXMLLoader fxmlLoader = new FXMLLoader();
-        Parent root = fxmlLoader.load(getClass().getResource("/view/CustomerMenu.fxml"), resource);
+        Parent root = fxmlLoader.load(getClass().getResource("/view/MainMenu.fxml"), resource);
         stage.setTitle("QAM2_JavaApplication");
         stage.setScene(new Scene(root, 800, 600));
         stage.show();

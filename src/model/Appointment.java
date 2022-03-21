@@ -122,4 +122,8 @@ public class Appointment {
     public void setEndTime(String endTime) {
         this.endTime = endTime;
     }
+
+    public int getContactID() {
+        return contactID;
+    }
 }

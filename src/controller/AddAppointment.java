@@ -1,16 +1,14 @@
 package controller;
 
+import dao.AppointmentDAO;
 import dao.CountryDAO;
 import dao.CustomerDAO;
 import dao.FirstLevelDivisionDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import model.Country;
@@ -23,9 +21,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
-public class AddCustomer implements Initializable {
-
-
+public class AddAppointment implements Initializable {
     public TextField customerIDText;
     public TextField customerAddressText;
     public TextField postalText;
@@ -43,12 +39,12 @@ public class AddCustomer implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        System.out.println("Loaded Add Customer");
+        System.out.println("Loaded Add Appointment");
         try {
-            countryCombo.setItems(CountryDAO.displayAllCountries());
-            countryCombo.setVisibleRowCount(5);
-            stateCombo.setItems(FirstLevelDivisionDAO.displayAllDivisions());
-            stateCombo.setVisibleRowCount(5);
+            //countryCombo.setItems(CountryDAO.displayAllCountries());
+            //countryCombo.setVisibleRowCount(5);
+            //stateCombo.setItems(FirstLevelDivisionDAO.displayAllDivisions());
+            //stateCombo.setVisibleRowCount(5);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -69,9 +65,8 @@ public class AddCustomer implements Initializable {
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
 
-            CustomerDAO.displayAllCustomers();
+            AppointmentDAO.displayAllAppointments();
             Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-            ;
             stage.close();
 
         }
@@ -133,10 +128,10 @@ public class AddCustomer implements Initializable {
             String phoneNumberFormatted = phoneNumber.substring(0,3) + "-" + phoneNumber.substring(3,6) + "-" + phoneNumber.substring(6,10);
 
             //Create Object
-               Customer customer = new Customer(customerID, customerName, customerAddress,
-                        postalCode, phoneNumberFormatted, firstLevel);
+            Customer customer = new Customer(customerID, customerName, customerAddress,
+                    postalCode, phoneNumberFormatted, firstLevel);
             //Save Local
-                saveCustomer.add(customer);
+            saveCustomer.add(customer);
 
 
             // Confirm Saving Object
@@ -152,10 +147,10 @@ public class AddCustomer implements Initializable {
                 CustomerDAO.displayAllCustomers();
                 // System.out.println(CustomerDAO.displayAllCustomers());
 
-               // Parent root = FXMLLoader.load(getClass().getResource("/view/CustomerMenu.fxml"));
+                // Parent root = FXMLLoader.load(getClass().getResource("/view/CustomerMenu.fxml"));
                 Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-               // Scene scene = new Scene(root, 800, 600);
-               // stage.setTitle("QKM2_JavaApplication");
+                // Scene scene = new Scene(root, 800, 600);
+                // stage.setTitle("QKM2_JavaApplication");
                 //stage.setScene(scene);
                 stage.close();
 
@@ -182,3 +177,4 @@ public class AddCustomer implements Initializable {
         stateCombo.setItems(FirstLevelDivisionDAO.displayDivisions(countryInt + 1));
     }
 }
+

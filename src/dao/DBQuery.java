@@ -9,12 +9,11 @@ public abstract class DBQuery {
     private static ResultSet result;
 
     public static void makeQuery(String query){
-        query = query;
         try{
             statement = DBConnector.connection.createStatement();
             // determine query execution
             if(query.toUpperCase().startsWith("SELECT"))
-                result=statement.executeQuery(query);
+                result= statement.executeQuery(query);
             if(query.toUpperCase().startsWith("DELETE")||query.toUpperCase().startsWith("INSERT")||query.toUpperCase().startsWith("UPDATE"))
                 statement.executeUpdate(query);
 

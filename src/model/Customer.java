@@ -8,8 +8,10 @@ package model;
  * @author James Trowbridge
  */
 
+import dao.FirstLevelDivisionDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXMLLoader;
 
 public class Customer {
     //This class will have information and methods related to the Customer table
@@ -20,6 +22,7 @@ public class Customer {
     private String postalCode;
     private String phoneNumber;
     private int divisionID;
+    private String divisionName;
 
     public Customer (int customerID, String customerName, String address, String postalCode, String phoneNumber, int divisionID) {
         this.customerID = customerID;
@@ -28,8 +31,18 @@ public class Customer {
         this.postalCode = postalCode;
         this.phoneNumber = phoneNumber;
         this.divisionID = divisionID;
-
     }
+
+    public Customer (int customerID, String customerName, String address, String postalCode, String phoneNumber, int divisionID, String divisionName) {
+        this.customerID = customerID;
+        this.customerName = customerName;
+        this.address = address;
+        this.postalCode = postalCode;
+        this.phoneNumber = phoneNumber;
+        this.divisionID = divisionID;
+        this.divisionName = divisionName;
+    }
+
     /**
      * @return the customerID
      */
@@ -94,13 +107,26 @@ public class Customer {
     /**
      * @return the divisionID
      */
-    public int getDivisionID() {
-        return divisionID;
+    public int getDivisionID() {return divisionID;
     }
+
     /**
      * @param divisionID to set
      */
-    public void setDivisionID(int divisionID) {
+    public void setDivisionID(int divisionID) {;
         this.divisionID = divisionID;
+    }
+
+    public String getDivisionName(){
+        return divisionName;
+    }
+
+    public void setDivisionName(){
+        this.divisionName = divisionName;
+    }
+
+    @Override
+    public String toString(){
+        return (divisionName);
     }
 }

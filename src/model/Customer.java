@@ -8,6 +8,7 @@ package model;
  * @author James Trowbridge
  */
 
+import dao.AppointmentDAO;
 import dao.FirstLevelDivisionDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,7 +16,7 @@ import javafx.fxml.FXMLLoader;
 
 public class Customer {
     //This class will have information and methods related to the Customer table
-    private ObservableList<Appointment> appointments = FXCollections.observableArrayList(); // maybe needs getter&setter
+    private ObservableList<Appointment> associatedAppointments = FXCollections.observableArrayList(); // maybe needs getter&setter
     private int customerID;
     private String customerName;
     private String address;
@@ -117,16 +118,44 @@ public class Customer {
         this.divisionID = divisionID;
     }
 
+    /**
+     * @return the divisionID
+     */
     public String getDivisionName(){
+
         return divisionName;
     }
+    /**
+     * @param divisionName to set
+     */
+    public void setDivisionName(String divisionName){
 
-    public void setDivisionName(){
         this.divisionName = divisionName;
+    }
+
+    /**
+     * @param appointment associated appointment to add
+     * function to add Appointment object to ObservableList associatedAppointment
+     */
+    public void addAssociatedAppointment(Appointment appointment){
+        associatedAppointments.add(appointment);
+    }
+    /**
+     * @param appointment associated appointment to delete
+     * @return boolean on whether to delete associatedAppointment from ObservableList
+     */
+    public boolean deleteAssociatedAppointment(Appointment appointment){
+        return associatedAppointments.remove(appointment);
+    }
+    /**
+     * @return the all associatedAppointment from ObservableList
+     */
+    public ObservableList<Appointment> getAllAssociatedAppointment(){
+        return associatedAppointments;
     }
 
     @Override
     public String toString(){
-        return (divisionName);
+        return (customerName);
     }
 }

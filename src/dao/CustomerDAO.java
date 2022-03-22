@@ -124,9 +124,6 @@ public class CustomerDAO {
         DBConnector.closeConnection();
         return allCustomers;
     }
-
-
-
 }
 
 

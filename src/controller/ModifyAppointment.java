@@ -1,8 +1,6 @@
 package controller;
 
-import dao.CountryDAO;
-import dao.CustomerDAO;
-import dao.FirstLevelDivisionDAO;
+import dao.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -10,211 +8,243 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import model.Country;
+
+import model.Appointment;
+import model.Contact;
 import model.Customer;
 import model.FirstLevelDivision;
 
+
 import java.io.IOException;
 import java.net.URL;
-import java.util.Optional;
-import java.util.ResourceBundle;
-import java.util.regex.Pattern;
 
+import java.time.*;
+import java.util.*;
+import java.util.regex.Pattern;
 public class ModifyAppointment implements Initializable {
+
     public Button saveButton;
     public Button cancelButton;
-    public TextField customerIDText;
-    public TextField customerAddressText;
-    public TextField postalText;
-    public TextField phoneText;
-    public TextField nameFirstText;
-    public TextField nameLastText;
-    public ComboBox<Country> countryCombo;
-    public ComboBox<FirstLevelDivision> stateCombo;
+    public TextField apptIDText;
+    public TextField titleText;
+    public TextField descriptionText;
+    public ComboBox<Customer> customerNameCombo;
+    public ComboBox<Contact> contactCombo;
+    public ComboBox<String> apptTypeCombo;
+    public DatePicker datePicker;
+    public TextField locationText;
+    public static ObservableList<LocalTime> appointments = FXCollections.observableArrayList();
+    public ComboBox<LocalTime> startTimeCombo;
 
-    public static ObservableList<Customer> incomingCustomer = FXCollections.observableArrayList();
+    public static ObservableList<Appointment> incomingAppointment = FXCollections.observableArrayList();
+
     /**
      * Initialize scene
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        System.out.println("Loaded Modify Customer");
+        System.out.println("Loaded Modify Appointment");
         try {
-            countryCombo.setItems(CountryDAO.displayAllCountries());
-            countryCombo.setVisibleRowCount(5);
-            stateCombo.setItems(FirstLevelDivisionDAO.displayAllDivisions());
-            stateCombo.setVisibleRowCount(5);
+            customerNameCombo.setItems(CustomerDAO.displayAllCustomers());
+            customerNameCombo.setVisibleRowCount(5);
+            contactCombo.setItems(ContactDAO.displayAllContacts());
+            contactCombo.setVisibleRowCount(5);
+            ObservableList<String> apptTypes = FXCollections.observableArrayList();
+            apptTypes.add(0, "Planning Session");
+            apptTypes.add(1, "De-Briefing");
+            apptTypes.add(2, "Coffee ");
+            apptTypes.add(3, "Business Meeting");
+            apptTypeCombo.setItems(apptTypes);
+            startTimeCombo.setItems(listAppointmentTimes());
+
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void loadSelectedCustomer(Customer customer) throws Exception {
+    public void loadSelectedAppointment(Appointment appointment) throws Exception {
 
-        incomingCustomer.add(0, customer);
+        incomingAppointment.add(0, appointment);
 
-        // Load Part
-        int customerID = customer.getCustomerID();
-        customerIDText.setText("" + customerID + "");
+        // Load appointment
+        int appointmentID = appointment.getAppointmentID();
+        apptIDText.setText("" + appointmentID + "");
 
-        String firstName = customer.getCustomerName().substring(0, customer.getCustomerName().indexOf(" "));
-        nameFirstText.setText(firstName);
+        String title = appointment.getTitle();
+        titleText.setText(title);
 
-        String lastName = customer.getCustomerName().substring(customer.getCustomerName().indexOf(" ") + 1);
-        nameLastText.setText(lastName);
+        String description = appointment.getDescription();
+        descriptionText.setText(description);
 
-        String address = customer.getAddress();
-        customerAddressText.setText(address);
+        String location = appointment.getLocation();
+        locationText.setText(location);
 
-        String postalCode = customer.getPostalCode();
-        postalText.setText(postalCode);
-
-        String phoneNumber = customer.getPhoneNumber();
-        phoneText.setText(phoneNumber);
-
-        int division = customer.getDivisionID();
-        for (FirstLevelDivision fld: stateCombo.getItems()){
-
-            if(division == fld.getDivisionID()){
-                stateCombo.setValue(fld);
-                if(division > 0 && division < 55)
-                {
-                    countryCombo.getSelectionModel().select(0);
-                }
-                else if (division >= 55 && division < 100)
-                {
-                    countryCombo.getSelectionModel().select(2);
-                }
-                else
-                {
-                    countryCombo.getSelectionModel().select(1);
-                }
-                break;
+        int customerID = appointment.getCustomerID();
+        for (Customer customer : customerNameCombo.getItems()
+        ) {
+            if (customerID == customer.getCustomerID()) {
+                customerNameCombo.setValue(customer);
             }
-
+        }
+        int contactID = appointment.getContactID();
+        for (Contact contact : contactCombo.getItems()
+        ) {
+            if (contactID == contact.getContactID()) {
+                contactCombo.setValue(contact);
+            }
         }
 
+        String ldt = appointment.getStartTime();
+        String ldtSplit[] = ldt.split(" ");
+        LocalDate date = LocalDate.parse(ldtSplit[0]);
+        LocalTime time = LocalTime.parse(ldtSplit[1]);
+        datePicker.setValue(date);
+        startTimeCombo.setValue(time);
+
     }
-
-    /**
-     * @param actionEvent save button action
-     *                    creates and saves new customer object
-     *                    customer is then added to the DB and displayed in CustomerMenu
-     * @throws IOException scene will not load or other exception
-     */
-    public void save(ActionEvent actionEvent) {
-        // save  things. First it creates a new customer. Second it loads back to the DB.
-        //Validate fields for the Customer
-        ObservableList<Customer> saveCustomer = FXCollections.observableArrayList();
-
-        try {
-
-            //check for empty first
-            if ((nameFirstText.getText().isBlank() || nameFirstText.getText().isEmpty()) ||
-                    (nameLastText.getText().isBlank() || nameLastText.getText().isEmpty()) ||
-                    (customerAddressText.getText().isBlank() || customerAddressText.getText().isEmpty()) ||
-                    (phoneText.getText().isBlank() || phoneText.getText().isEmpty()) ||
-                    (postalText.getText().isBlank() || postalText.getText().isEmpty())) {
-                throw new Exception("Input Required: All fields must contain valid inputs.");
-            }
-            int customerID = Integer.parseInt(customerIDText.getText());
-            String customerName = nameFirstText.getText() + " " + nameLastText.getText();
-            String customerAddress  = customerAddressText.getText();
-            String postalCode = postalText.getText();
-            String phoneNumber = phoneText.getText();
-            int firstLevel = stateCombo.getValue().getDivisionID();
-
-            //Validate Entries
-            Pattern specialChar = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
-
-            if (specialChar.matcher(customerName).find()) {
-                throw new Exception("Input Exception: Customer Name must not contain special characters such as !@#$%? etc.");
-            }
-            if (specialChar.matcher(customerAddress).find()) {
-                throw new Exception("Input Exception: Address must not contain special characters such as !@#$%? etc.");
-            }
-            if (specialChar.matcher(postalCode).find()) {
-                throw new Exception("Input Exception: Postal Code must not contain special characters such as !@#$%? etc.");
-            }
-            else if (postalCode.length() > 5){
-                throw new Exception("Input Exception: Postal Code must not exceed five digits");
-            }
-
-            if (specialChar.matcher(phoneNumber).find()) {
-                throw new Exception("Input Exception: Phone Number must not contain special characters such as !@#$%? etc.");
-            }
-            else if (phoneNumber.length() != 10){
-                throw new Exception("Input Exception: Phone Number must contain 10 digits");
-            }
-
-            //Reformat Phone
-            String phoneNumberFormatted = phoneNumber.substring(0,3) + "-" + phoneNumber.substring(3,6) + "-" + phoneNumber.substring(6,10);
-
-            //Create Object
-            Customer customer = new Customer(customerID, customerName, customerAddress,
-                    postalCode, phoneNumberFormatted, firstLevel);
-            //Save Local
-            saveCustomer.add(customer);
-
-            // Confirm Saving Object
+        /**
+         * @param actionEvent cancel button action - closes AddCustomer form.
+         * @throws IOException scene will not load or other exception
+         */
+        public void cancel (ActionEvent actionEvent) throws Exception {
+            //confirm cancel
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Confirm");
-            alert.setHeaderText("Save Changes to Customer?");
-            alert.setContentText("Press OK to save Customer: " + customerName + ". Press Cancel to continue editing Customer.");
+            alert.setHeaderText("Cancel Modifying Appointment?");
+            alert.setContentText("Press OK to Exit. Press Cancel to continue editing Appointment.");
 
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK) {
 
-                CustomerDAO.updateCustomer(saveCustomer.get(0));
-                CustomerDAO.displayAllCustomers();
+                AppointmentDAO.displayAllAppointments();
                 Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
                 stage.close();
 
-            } else {
-                //cancel was selected and object removed from temp list. Continue Editing.
-                saveCustomer.remove(0);
+            }
+        }
+        /**
+         * @param actionEvent save button action
+         *                    creates and saves new customer object
+         *                    customer is then added to the DB and displayed in CustomerMenu
+         * @throws IOException scene will not load or other exception
+         */
+        public void save (ActionEvent actionEvent) throws IOException {
+            // save  things and load back to the DB.
+            //Validate fields for appointment
+            ObservableList<Appointment> saveAppointment = FXCollections.observableArrayList();
+
+            try {
+
+                //check for empty first
+                if ((titleText.getText().isBlank() || titleText.getText().isEmpty()) ||
+                        (descriptionText.getText().isBlank() || descriptionText.getText().isEmpty())) {
+                    throw new Exception("Input Required: All fields must contain valid inputs.");
+                }
+
+                //get customer info
+                int apptID = 0;
+                String apptTitle = titleText.getText();
+                String apptDescription = descriptionText.getText();
+                String location = locationText.getText();
+                String customerName = customerNameCombo.getValue().toString();
+                int contact = contactCombo.getValue().getContactID();
+                String apptType = apptTypeCombo.getValue();
+
+                //set date & time
+                LocalDate date = datePicker.getValue();
+                int startHour = startTimeCombo.getValue().getHour();
+                int startMin = startTimeCombo.getValue().getMinute();
+                LocalTime start = LocalTime.of(startHour, startMin, 0);
+                int timeIndex = startTimeCombo.getSelectionModel().getSelectedIndex();
+                startTimeCombo.getSelectionModel().select(timeIndex + 1);
+                int endHour = startTimeCombo.getValue().getHour();
+                int endMin = startTimeCombo.getValue().getMinute();
+                LocalTime end = LocalTime.of(endHour, endMin, 0);
+                LocalDateTime localDateStartTime = LocalDateTime.of(date, start);
+                LocalDateTime localDateEndTime = LocalDateTime.of(date, end);
+                ZoneId localZoneID = ZoneId.systemDefault();
+                ZonedDateTime localZDTstart = ZonedDateTime.of(localDateStartTime, localZoneID);
+                ZonedDateTime localZDTend = ZonedDateTime.of(localDateEndTime, localZoneID);
+                ZoneId utcZoneID = ZoneId.of("UTC");
+                ZonedDateTime storedDateStartTime = ZonedDateTime.ofInstant(localZDTstart.toInstant(), utcZoneID);
+                ZonedDateTime storedDateEndTime = ZonedDateTime.ofInstant(localZDTend.toInstant(), utcZoneID);
+
+                String formattedStart = storedDateStartTime.toLocalDate().toString() + " " + storedDateStartTime.toLocalTime().toString();
+                String formattedEnd = storedDateEndTime.toLocalDate().toString() + " " + storedDateEndTime.toLocalTime().toString();
+
+
+                int userID = LoginScreen.userID;
+
+                //Validate Entries
+                Pattern specialChar = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
+
+                if (specialChar.matcher(apptTitle).find()) {
+                    throw new Exception("Input Exception: Customer Name must not contain special characters such as !@#$%? etc.");
+                }
+                if (specialChar.matcher(apptDescription).find()) {
+                    throw new Exception("Input Exception: Address must not contain special characters such as !@#$%? etc.");
+                }
+
+                //Create Object
+                Appointment appointment = new Appointment(apptID, apptTitle, apptDescription, location, apptType,
+                        formattedStart, formattedEnd, userID, customerNameCombo.getValue().getCustomerID(), contact);
+                //Save Local
+                saveAppointment.add(appointment);
+
+
+                // Confirm Saving Object
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Confirm");
+                alert.setHeaderText("Save New Appointment for " + customerName + "?");
+                alert.setContentText("Press OK to save Appointment. Press Cancel to continue editing Appointment.");
+
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == ButtonType.OK) {
+
+                    AppointmentDAO.updateAppointment(saveAppointment.get(0));
+                    ObservableList<Appointment> currentAppointments = customerNameCombo.getValue().getAllAssociatedAppointment();
+                    for (Appointment appt: currentAppointments)
+                    {
+                        if(appt.getAppointmentID() == incomingAppointment.get(0).getAppointmentID())
+                            customerNameCombo.getValue().deleteAssociatedAppointment(appt);
+                    }
+                    customerNameCombo.getValue().addAssociatedAppointment(saveAppointment.get(0));
+                    System.out.println(customerNameCombo.getValue().getAllAssociatedAppointment().toString());
+                    AppointmentDAO.displayAllAppointments();
+                    Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+
+                    stage.close();
+
+                } else {
+                    //cancel was selected and object removed from temp list. Continue Editing.
+                    saveAppointment.remove(0);
+                }
+
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error Code 400: Bad Request.");
+                alert.setHeaderText("Exception has occurred.");
+                alert.setContentText("Please verify all fields were entered correctly.\n" + e.getMessage());
+
+                alert.showAndWait();
             }
 
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error Code 400: Bad Request.");
-            alert.setHeaderText("Exception has occurred.");
-            alert.setContentText("Please verify all fields were entered correctly.\n" + e.getMessage());
-
-            alert.showAndWait();
         }
+        public ObservableList<LocalTime> listAppointmentTimes(){
+            int startHour = 8;
+            int endHour = 22;
 
-    }
-
-    /**
-     * @param actionEvent cancel button action - closes ModifyCustomer form.
-     * @throws IOException scene will not load or other exception
-     */
-    public void cancel(ActionEvent actionEvent) throws Exception {
-        //confirm cancel
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Confirm");
-        alert.setHeaderText("Cancel Modifying Customer?");
-        alert.setContentText("Press OK to Exit. Press Cancel to continue editing Customer.");
-
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK) {
-
-            CustomerDAO.displayAllCustomers();
-            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-            stage.close();
-
+            for (int i = startHour * 60; i <= endHour * 60; i += 15) {
+                int hour = i / 60;
+                int min = i % 60;
+                LocalTime timeSlotTime = LocalTime.of(hour, min);
+                appointments.add(timeSlotTime);
+            }
+            return appointments;
         }
     }
-
-    public void countrySelection(ActionEvent actionEvent) throws Exception {
-        int countryInt = countryCombo.getSelectionModel().getSelectedIndex();
-        stateCombo.setItems(FirstLevelDivisionDAO.displayDivisions(countryInt+1));
-
-    }
-}
 

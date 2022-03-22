@@ -105,12 +105,11 @@ public class ModifyCustomer implements Initializable {
      * @throws IOException scene will not load or other exception
      */
     public void save(ActionEvent actionEvent) {
-        // save  things. First it creates a new customer. Second it loads back to the DB.
+        // save customer. Load back to the DB.
         //Validate fields for the Customer
         ObservableList<Customer> saveCustomer = FXCollections.observableArrayList();
 
         try {
-
             //check for empty first
             if ((nameFirstText.getText().isBlank() || nameFirstText.getText().isEmpty()) ||
                     (nameLastText.getText().isBlank() || nameLastText.getText().isEmpty()) ||

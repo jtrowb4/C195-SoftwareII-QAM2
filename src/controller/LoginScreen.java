@@ -28,6 +28,7 @@ public class LoginScreen implements Initializable {
     public TextField userNameText;
     public PasswordField passwordText;
 
+    public static int userID;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
@@ -43,7 +44,9 @@ public class LoginScreen implements Initializable {
            User userLogin = UserDAO.getUserLogin(userName);
            String userLoginName = userLogin.getUserName();
            String userLoginPassword = userLogin.getPassword();
-           if ((userLoginName.equals(userName)) && (userLoginPassword.equals(password))){
+           int userLoginUserID = userLogin.getUserID();
+           userID = userLoginUserID;
+            if ((userLoginName.equals(userName)) && (userLoginPassword.equals(password))){
                System.out.println("Login Success");
                Parent root = FXMLLoader.load(getClass().getResource("/view/MainMenu.fxml"));
                Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();

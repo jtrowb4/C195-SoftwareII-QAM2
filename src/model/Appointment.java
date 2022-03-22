@@ -9,6 +9,9 @@ package model;
  */
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+
+import java.time.*;
+
 public class Appointment {
     //this class will have info and methods related to the Appointment table
     private int appointmentID;
@@ -21,7 +24,6 @@ public class Appointment {
     private int userId;
     private int customerID;
     private int contactID;
-
 
     public Appointment (int appointmentID, String title, String description, String location, String type,
                         String startTime, String endTime, int userId, int customerID, int contactID) {
@@ -123,7 +125,26 @@ public class Appointment {
         this.endTime = endTime;
     }
 
+    public int getCustomerID() {
+        return customerID;
+    }
+
+    public void setCustomerID(int customerID){
+        this.customerID = customerID;
+    }
+
+    public int getUserId(){
+        return userId;
+    }
+    public void setUserId(int userId){
+        this.userId = userId;
+    }
+
     public int getContactID() {
         return contactID;
+    }
+
+    public void setContactID(int contactID) {
+        this.contactID = contactID;
     }
 }

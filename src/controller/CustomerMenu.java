@@ -1,5 +1,6 @@
 package controller;
 
+import dao.AppointmentDAO;
 import dao.CustomerDAO;
 import dao.FirstLevelDivisionDAO;
 import javafx.beans.property.SimpleStringProperty;
@@ -17,6 +18,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import model.Appointment;
 import model.Customer;
 import model.FirstLevelDivision;
 import java.io.IOException;
@@ -24,6 +26,7 @@ import java.net.URL;
 
 import java.sql.SQLException;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class CustomerMenu implements Initializable {
@@ -54,12 +57,6 @@ public class CustomerMenu implements Initializable {
 
         try {
             customerTable.setItems(CustomerDAO.displayAllCustomers());
-          /*  ObservableList<FirstLevelDivision> firstLevelDivisions = FirstLevelDivisionDAO.displayAllDivisions();
-            for (FirstLevelDivision division: firstLevelDivisions
-                 ) {
-                if (division.equals(customerDivision.getCellObservableValue("divisionID").getValue()));
-                customerDivision.getColumns().set(customerDivision.getColumns().indexOf("divisionID"), division.getDivisionName());
-            }*/
 
         }
     catch(Exception e) {
@@ -126,10 +123,43 @@ public class CustomerMenu implements Initializable {
         public void loadDeleteCustomer (ActionEvent actionEvent) throws Exception {
             Customer selectedCustomer = (Customer) customerTable.getSelectionModel().getSelectedItem();
 
-            if (selectedCustomer != null) {
-                CustomerDAO.deleteCustomer(selectedCustomer);
-            }
+            ObservableList<Appointment> appointments = selectedCustomer.getAllAssociatedAppointment();
 
+            if (selectedCustomer != null) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Confirm");
+                alert.setHeaderText("Delete Customer?");
+                alert.setContentText("Press OK to Delete Customer: " + selectedCustomer.getCustomerName() + ". Press Cancel to close without deleting.");
+
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == ButtonType.OK)
+                {
+                    if (appointments.size() > 0)
+                    {
+                        alert = new Alert(Alert.AlertType.CONFIRMATION);
+                        alert.setTitle("Confirm");
+                        alert.setHeaderText("Appointments exist for " + selectedCustomer.getCustomerName() + ".");
+                        alert.setContentText("Press OK to delete appointments and customer. Press Cancel to close without deleting.");
+
+                        Optional<ButtonType> apptResult = alert.showAndWait();
+                        if (apptResult.get() == ButtonType.OK)
+                        {
+                            for (Appointment appt: appointments)
+                            {
+                                selectedCustomer.getAllAssociatedAppointment().remove(appt);
+                                AppointmentDAO.deleteAppointment(appt);
+                                Alert inform = new Alert(Alert.AlertType.INFORMATION);
+                                inform.setTitle("Success Code 200: Success.");
+                                inform.setHeaderText("Processed Successfully.");
+                                inform.setContentText("Appointment: " + appt.getAppointmentID() + " for " + selectedCustomer.getCustomerName() + " has been deleted");
+
+                            }
+                        }
+                    }
+                    CustomerDAO.deleteCustomer(selectedCustomer);
+                }
+
+            }
             customerTable.setItems(CustomerDAO.displayAllCustomers());
         }
 

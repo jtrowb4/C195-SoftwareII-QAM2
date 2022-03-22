@@ -24,8 +24,6 @@ import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
 public class AddCustomer implements Initializable {
-
-
     public TextField customerIDText;
     public TextField customerAddressText;
     public TextField postalText;
@@ -71,7 +69,6 @@ public class AddCustomer implements Initializable {
 
             CustomerDAO.displayAllCustomers();
             Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-            ;
             stage.close();
 
         }
@@ -150,13 +147,7 @@ public class AddCustomer implements Initializable {
 
                 CustomerDAO.insertCustomer(saveCustomer.get(0));
                 CustomerDAO.displayAllCustomers();
-                // System.out.println(CustomerDAO.displayAllCustomers());
-
-               // Parent root = FXMLLoader.load(getClass().getResource("/view/CustomerMenu.fxml"));
                 Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-               // Scene scene = new Scene(root, 800, 600);
-               // stage.setTitle("QKM2_JavaApplication");
-                //stage.setScene(scene);
                 stage.close();
 
             } else {

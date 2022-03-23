@@ -152,6 +152,12 @@ public class AppointmentMenu implements Initializable {
                     customers.get(0).deleteAssociatedAppointment(selectedAppointment);
                     System.out.println(customers.get(0).getAllAssociatedAppointment().toString());
                 }
+
+                Alert informApptDelete = new Alert(Alert.AlertType.INFORMATION);
+                informApptDelete.setTitle("Success Code 200: Success.");
+                informApptDelete.setHeaderText("Processed Successfully.");
+                informApptDelete.setContentText("Appointment: " + selectedAppointment.getAppointmentID() + " at " + selectedAppointment.getStartTime() + " has been deleted");
+                informApptDelete.show();
             }
 
         }

@@ -1,6 +1,8 @@
 package controller;
 
 import dao.*;
+import interfaces.CalcInterface;
+import interfaces.StringCreate;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -163,9 +165,13 @@ public class AddAppointment implements Initializable {
             if (specialChar.matcher(apptDescription).find()) {
                 throw new Exception("Input Exception: Description must not contain special characters such as !@#$%? etc.");
             }
-
-            String formattedStart = storedDateStartTime.toLocalDate().toString() + " " + storedDateStartTime.toLocalTime().toString();
-            String formattedEnd = storedDateEndTime.toLocalDate().toString() + " " + storedDateEndTime.toLocalTime().toString();
+            /**
+             *
+             * Lambda used to make new String
+             */
+            StringCreate stringCreate = (s1, s2) -> s1 + " " + s2;
+            String formattedStart = stringCreate.Combine(storedDateStartTime.toLocalDate().toString(), storedDateStartTime.toLocalTime().toString());
+            String formattedEnd = stringCreate.Combine(storedDateEndTime.toLocalDate().toString(), storedDateEndTime.toLocalTime().toString());
 
             //Create Object
             Appointment appointment = new Appointment(apptID, apptTitle, apptDescription, location, apptType,
@@ -183,7 +189,8 @@ public class AddAppointment implements Initializable {
             if (result.get() == ButtonType.OK) {
 
                 AppointmentDAO.insertAppointment(saveAppointment.get(0));
-                customerNameCombo.getValue().addAssociatedAppointment(saveAppointment.get(0));
+                ObservableList<Appointment> newAppt = AppointmentDAO.getAppointment(customerNameCombo.getValue().getCustomerID());
+                customerNameCombo.getValue().addAssociatedAppointment(newAppt.get(newAppt.size()-1)); //size of 1
                 System.out.println(customerNameCombo.getValue().getAllAssociatedAppointment().toString());
                 AppointmentDAO.displayAllAppointments();
                 Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
@@ -207,14 +214,25 @@ public class AddAppointment implements Initializable {
         }
 
     }
+
+    /**
+     * Lamda using CalcInterface timeCalc() method
+     * for calculating time in minutes
+     * @return a list containing all local times
+     */
     public ObservableList<LocalTime> listAppointmentTimes() {
         int startHour = 0;
         int endHour = 24;
 
-        for (int i = startHour * 60; i < endHour * 60; i+=15) {
-            int hour = i/60;
-            int min = i%60;
-            LocalTime timeSlotTime = LocalTime.of(hour,min);
+        CalcInterface hoursToMins = (n1, n2) -> n1 * n2;
+        CalcInterface minsToHours = (n1, n2) -> n1 / n2;
+        CalcInterface remainingMins = (n1, n2) -> n1 % n2;
+
+        for (int i = hoursToMins.timeCalc(startHour,60); i < hoursToMins.timeCalc(endHour,60); i += 15) {
+
+            int hour = minsToHours.timeCalc(i, 60);
+            int min = remainingMins.timeCalc(i, 60);
+            LocalTime timeSlotTime = LocalTime.of(hour, min);
             appointments.add(timeSlotTime);
         }
         return appointments;

@@ -1,6 +1,8 @@
 package controller;
 
 import dao.*;
+import interfaces.CalcInterface;
+import interfaces.StringCreate;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -152,7 +154,7 @@ public class ModifyAppointment implements Initializable {
                 }
 
                 //get customer info
-                int apptID = 0;
+                int apptID = Integer.parseInt(apptIDText.getText());
                 String apptTitle = titleText.getText();
                 String apptDescription = descriptionText.getText();
                 String location = locationText.getText();
@@ -203,7 +205,7 @@ public class ModifyAppointment implements Initializable {
                         LocalDateTime apptLDT = LocalDateTime.of(otherDate, otherTime);
 
                         if (thisApptLDT.equals(apptLDT)) {
-                            throw new Exception("Input Exception: Time selected overlaps with other appointments. Please select a different time");
+                            throw new Exception("Input Exception: Time selected overlaps with other appointments.\n Please select a different time.");
                         }
                     }
                 }
@@ -221,8 +223,13 @@ public class ModifyAppointment implements Initializable {
                     throw new Exception("Input Exception: Description must not contain special characters such as !@#$%? etc.");
                 }
 
-                String formattedStart = storedDateStartTime.toLocalDate().toString() + " " + storedDateStartTime.toLocalTime().toString();
-                String formattedEnd = storedDateEndTime.toLocalDate().toString() + " " + storedDateEndTime.toLocalTime().toString();
+                /**
+                 *
+                 * Lambda used to make new String
+                 */
+                StringCreate stringCreate = (s1, s2) -> s1 + " " + s2;
+                String formattedStart = stringCreate.Combine(storedDateStartTime.toLocalDate().toString(), storedDateStartTime.toLocalTime().toString());
+                String formattedEnd = stringCreate.Combine(storedDateEndTime.toLocalDate().toString(), storedDateEndTime.toLocalTime().toString());
 
                 //Create Object
                 Appointment appointment = new Appointment(apptID, apptTitle, apptDescription, location, apptType,
@@ -271,17 +278,28 @@ public class ModifyAppointment implements Initializable {
             }
 
         }
-        public ObservableList<LocalTime> listAppointmentTimes(){
-            int startHour = 8;
-            int endHour = 22;
 
-            for (int i = startHour * 60; i <= endHour * 60; i += 15) {
-                int hour = i / 60;
-                int min = i % 60;
-                LocalTime timeSlotTime = LocalTime.of(hour, min);
-                appointments.add(timeSlotTime);
-            }
-            return appointments;
+    /**
+     * Lamda using CalcInterface timeCalc() method
+     * for calculating time in minutes
+     * @return a list containing all local times
+     */
+    public ObservableList<LocalTime> listAppointmentTimes() {
+        int startHour = 0;
+        int endHour = 24;
+        CalcInterface hoursToMins = (n1, n2) -> n1 * n2;
+        CalcInterface minsToHours = (n1, n2) -> n1 / n2;
+        CalcInterface remainingMins = (n1, n2) -> n1 % n2;
+
+        for (int i = hoursToMins.timeCalc(startHour,60); i < hoursToMins.timeCalc(endHour,60); i += 15) {
+
+            int hour = minsToHours.timeCalc(i, 60);
+            int min = remainingMins.timeCalc(i, 60);
+            LocalTime timeSlotTime = LocalTime.of(hour, min);
+            appointments.add(timeSlotTime);
         }
+        return appointments;
     }
+
+}
 

@@ -44,7 +44,6 @@ public class MainMenu implements Initializable {
             LocalDate apptDate = LocalDate.parse(daySplit[0]);
             LocalTime apptTime = LocalTime.parse(daySplit[1]);
             LocalDateTime apptLDT = LocalDateTime.of(apptDate, apptTime); //appt in UTC
-
             ZoneId zoneId = ZoneId.of("UTC");
             LocalDateTime todayNow = LocalDateTime.now(zoneId);
             LocalDate today = todayNow.toLocalDate();

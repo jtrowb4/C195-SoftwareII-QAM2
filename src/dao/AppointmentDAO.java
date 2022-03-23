@@ -25,7 +25,7 @@ public class AppointmentDAO {
             allAppointments.clear();
         }
         DBConnector.openConnection();
-        DBQuery.makeQuery(joinCall);
+        DBQuery.makeQuery(joinCall + " ORDER BY client_schedule.appointments.Appointment_ID");
         ResultSet result = DBQuery.getResult();
         while (result.next()) {
             int appointmentID = result.getInt("Appointment_ID");
@@ -102,7 +102,7 @@ public class AppointmentDAO {
             allAppointments.clear();
         }
         DBConnector.openConnection();
-        DBQuery.makeQuery(weekApptsQuery);
+        DBQuery.makeQuery(weekApptsQuery + " ORDER BY client_schedule.appointments.Appointment_ID");
         ResultSet result = DBQuery.getResult();
         while (result.next()) {
             int appointmentID = result.getInt("Appointment_ID");
@@ -128,7 +128,7 @@ public class AppointmentDAO {
             allAppointments.clear();
         }
         DBConnector.openConnection();
-        DBQuery.makeQuery(monthApptsQuery);
+        DBQuery.makeQuery(monthApptsQuery + " ORDER BY client_schedule.appointments.Appointment_ID");
         ResultSet result = DBQuery.getResult();
         while (result.next()) {
             int appointmentID = result.getInt("Appointment_ID");
@@ -148,6 +148,32 @@ public class AppointmentDAO {
         return allAppointments;
     }
 
+    public static ObservableList<Appointment> getAppointment(int customer_ID) throws SQLException {
+
+        if (allAppointments.size() > 0){
+            allAppointments.clear();
+        }
+
+        DBConnector.openConnection();
+        DBQuery.makeQuery("SELECT * FROM client_schedule.appointments WHERE Customer_ID = '" + customer_ID + "'");
+        ResultSet result = DBQuery.getResult();
+        while (result.next()) {
+            int appointmentID = result.getInt("Appointment_ID");
+            String appointmentTitle = result.getString("Title");
+            String appointmentDescription = result.getString("Description");
+            String appointmentLocation = result.getString("Location");
+            String appointmentType = result.getString("Type");
+            String appointmentStart = result.getString("Start");
+            String appointmentEnd = result.getString("End");
+            int userID = result.getInt("User_ID");
+            int customerID = result.getInt("Customer_ID");
+            int contactID = result.getInt("Contact_ID");
+            addAppointment(new Appointment(appointmentID, appointmentTitle, appointmentDescription, appointmentLocation,
+                    appointmentType, appointmentStart, appointmentEnd, userID, customerID, contactID));
+        }
+        DBConnector.closeConnection();
+        return allAppointments;
+    }
 }
 
 

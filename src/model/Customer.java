@@ -16,7 +16,7 @@ import javafx.fxml.FXMLLoader;
 
 public class Customer {
     //This class will have information and methods related to the Customer table
-    private ObservableList<Appointment> associatedAppointments = FXCollections.observableArrayList(); // maybe needs getter&setter
+    private ObservableList<Appointment> associatedAppointments = FXCollections.observableArrayList();
     private int customerID;
     private String customerName;
     private String address;
@@ -139,6 +139,7 @@ public class Customer {
      */
     public void addAssociatedAppointment(Appointment appointment){
         associatedAppointments.add(appointment);
+
     }
     /**
      * @param appointment associated appointment to delete

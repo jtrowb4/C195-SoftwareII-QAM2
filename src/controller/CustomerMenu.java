@@ -2,6 +2,7 @@ package controller;
 
 import dao.AppointmentDAO;
 import dao.CustomerDAO;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -115,7 +116,10 @@ public class CustomerMenu implements Initializable {
         public void loadDeleteCustomer (ActionEvent actionEvent) throws Exception {
             Customer selectedCustomer = (Customer) customerTable.getSelectionModel().getSelectedItem();
 
-            ObservableList<Appointment> appointments = selectedCustomer.getAllAssociatedAppointment();
+            ObservableList<Appointment> customerAppts = FXCollections.observableArrayList();
+            int size = customerAppts.size();
+            customerAppts = AppointmentDAO.getAppointment(selectedCustomer.getCustomerID());
+            size = customerAppts.size();
 
             if (selectedCustomer != null) {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -126,7 +130,7 @@ public class CustomerMenu implements Initializable {
                 Optional<ButtonType> result = alert.showAndWait();
                 if (result.get() == ButtonType.OK)
                 {
-                    if (appointments.size() > 0)
+                    if (customerAppts.size() > 0)
                     {
                         Alert apptConfirm = new Alert(Alert.AlertType.CONFIRMATION);
                         apptConfirm.setTitle("Confirm");
@@ -136,7 +140,7 @@ public class CustomerMenu implements Initializable {
                         Optional<ButtonType> apptResult = apptConfirm.showAndWait();
                         if (apptResult.get() == ButtonType.OK)
                         {
-                            for (Appointment appt: appointments)
+                            for (Appointment appt: customerAppts)
                             {
                                 selectedCustomer.getAllAssociatedAppointment().remove(appt);
                                 AppointmentDAO.deleteAppointment(appt);
@@ -146,15 +150,17 @@ public class CustomerMenu implements Initializable {
                                 informApptDelete.setContentText("Appointment: " + appt.getAppointmentID() + " for " + selectedCustomer.getCustomerName() + " has been deleted");
                                 informApptDelete.show();
                             }
+
+                            Customer tempCustomer = selectedCustomer;
+                            CustomerDAO.deleteCustomer(selectedCustomer);
+                            Alert inform = new Alert(Alert.AlertType.INFORMATION);
+                            inform.setTitle("Success Code 200: Success.");
+                            inform.setHeaderText("Processed Successfully.");
+                            inform.setContentText("Customer: " + tempCustomer.getCustomerName() + "(" + selectedCustomer.getCustomerID() + ")" + " has been deleted");
+                            inform.show();
+
                         }
                     }
-                    Customer tempCustomer = selectedCustomer;
-                    CustomerDAO.deleteCustomer(selectedCustomer);
-                    Alert inform = new Alert(Alert.AlertType.INFORMATION);
-                    inform.setTitle("Success Code 200: Success.");
-                    inform.setHeaderText("Processed Successfully.");
-                    inform.setContentText("Customer: " + tempCustomer.getCustomerName() + "(" + selectedCustomer.getCustomerID() + ")" + " has been deleted");
-                    inform.show();
                 }
             }
 

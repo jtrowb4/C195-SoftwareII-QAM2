@@ -3,17 +3,20 @@ package dao;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Appointment;
-import model.Customer;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class AppointmentDAO {
 
+
     private static ObservableList<Appointment> allAppointments = FXCollections.observableArrayList();
-    private static String allApptsQuery = "SELECT * FROM client_schedule.appointments";
-    private static String weekApptsQuery = "SELECT * FROM client_schedule.appointments WHERE week(start)= week(now())";
-    private static String monthApptsQuery = "SELECT * FROM client_schedule.appointments WHERE Month(start)= Month(now())";
+    private static String joinCall = "SELECT Appointment_ID, Title, Description, Location, Type, Start, End, Customer_ID, User_ID, client_schedule.appointments.Contact_ID, Contact_Name " +
+            "FROM client_schedule.appointments, client_schedule.contacts " +
+            "WHERE client_schedule.appointments.Contact_ID = client_schedule.contacts.Contact_ID";
+
+    private static String weekApptsQuery = joinCall + " AND week(start)= week(now())";
+    private static String monthApptsQuery = joinCall + " AND Month(start)= Month(now())";
 
 
     public static ObservableList<Appointment> displayAllAppointments() throws SQLException, Exception {
@@ -22,7 +25,7 @@ public class AppointmentDAO {
             allAppointments.clear();
         }
         DBConnector.openConnection();
-        DBQuery.makeQuery(allApptsQuery);
+        DBQuery.makeQuery(joinCall);
         ResultSet result = DBQuery.getResult();
         while (result.next()) {
             int appointmentID = result.getInt("Appointment_ID");
@@ -35,8 +38,9 @@ public class AppointmentDAO {
             int userID = result.getInt("User_ID");
             int customerID = result.getInt("Customer_ID");
             int contactID = result.getInt("Contact_ID");
+            String contactName = result.getString("Contact_Name");
             addAppointment(new Appointment(appointmentID, appointmentTitle, appointmentDescription, appointmentLocation,
-                    appointmentType, appointmentStart, appointmentEnd, userID, customerID, contactID));
+                    appointmentType, appointmentStart, appointmentEnd, userID, customerID, contactID, contactName));
         }
         DBConnector.closeConnection();
         return allAppointments;

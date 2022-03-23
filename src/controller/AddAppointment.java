@@ -8,18 +8,15 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-
 import model.Appointment;
 import model.Contact;
 import model.Customer;
-
-
 import java.io.IOException;
 import java.net.URL;
-
 import java.time.*;
 import java.util.*;
 import java.util.regex.Pattern;
+
 public class AddAppointment implements Initializable {
 
     public Button saveButton;
@@ -34,7 +31,6 @@ public class AddAppointment implements Initializable {
     public TextField locationText;
     public static ObservableList<LocalTime> appointments = FXCollections.observableArrayList();
     public ComboBox<LocalTime> startTimeCombo;
-
     /**
      * Initialize scene
      */
@@ -55,12 +51,10 @@ public class AddAppointment implements Initializable {
             apptTypeCombo.setItems(apptTypes);
             startTimeCombo.setItems(listAppointmentTimes());
 
-
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
     /**
      * @param actionEvent cancel button action - closes AddCustomer form.
      * @throws IOException scene will not load or other exception
@@ -69,8 +63,8 @@ public class AddAppointment implements Initializable {
         //confirm cancel
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirm");
-        alert.setHeaderText("Cancel Creating New Customer?");
-        alert.setContentText("Press OK to Exit. Press Cancel to continue editing Customer.");
+        alert.setHeaderText("Cancel Creating New Appointment?");
+        alert.setContentText("Press OK to Exit. Press Cancel to continue editing Appointment.");
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
@@ -83,27 +77,27 @@ public class AddAppointment implements Initializable {
     }
     /**
      * @param actionEvent save button action
-     *                    creates and saves new customer object
-     *                    customer is then added to the DB and displayed in CustomerMenu
+     *                    creates and saves new appointment object
+     *                    appointment is then added to the DB and displayed in appointment menu
      * @throws IOException scene will not load or other exception
      */
     public void save(ActionEvent actionEvent) throws IOException {
         // save  things. First it creates a new customer. Second it loads back to the DB.
-        //Validate fields for New Customer
+        //Validate fields for New Appointment
         ObservableList<Appointment> saveAppointment = FXCollections.observableArrayList();
 
         try {
 
             //check for empty first
             if ((titleText.getText().isBlank() || titleText.getText().isEmpty()) ||
-                    (descriptionText.getText().isBlank() || descriptionText.getText().isEmpty())){
+                    (descriptionText.getText().isBlank() || descriptionText.getText().isEmpty())) {
                 throw new Exception("Input Required: All fields must contain valid inputs.");
             }
 
             //get customer info
             int apptID = 0;
             String apptTitle = titleText.getText();
-            String apptDescription  = descriptionText.getText();
+            String apptDescription = descriptionText.getText();
             String location = locationText.getText();
             String customerName = customerNameCombo.getValue().toString();
             int contact = contactCombo.getValue().getContactID();
@@ -113,23 +107,49 @@ public class AddAppointment implements Initializable {
             LocalDate date = datePicker.getValue();
             int startHour = startTimeCombo.getValue().getHour();
             int startMin = startTimeCombo.getValue().getMinute();
-            LocalTime start = LocalTime.of(startHour, startMin,0);
+            LocalTime start = LocalTime.of(startHour, startMin, 0);
             int timeIndex = startTimeCombo.getSelectionModel().getSelectedIndex();
-            startTimeCombo.getSelectionModel().select(timeIndex+1);
+            startTimeCombo.getSelectionModel().select(timeIndex + 1);
             int endHour = startTimeCombo.getValue().getHour();
             int endMin = startTimeCombo.getValue().getMinute();
-            LocalTime end = LocalTime.of(endHour, endMin,0);
-            LocalDateTime localDateStartTime = LocalDateTime.of(date,start);
-            LocalDateTime localDateEndTime = LocalDateTime.of(date,end);
+            LocalTime end = LocalTime.of(endHour, endMin, 0);
+            LocalDateTime localDateStartTime = LocalDateTime.of(date, start);
+            LocalDateTime localDateEndTime = LocalDateTime.of(date, end);
             ZoneId localZoneID = ZoneId.systemDefault();
             ZonedDateTime localZDTstart = ZonedDateTime.of(localDateStartTime, localZoneID);
             ZonedDateTime localZDTend = ZonedDateTime.of(localDateEndTime, localZoneID);
             ZoneId utcZoneID = ZoneId.of("UTC");
             ZonedDateTime storedDateStartTime = ZonedDateTime.ofInstant(localZDTstart.toInstant(), utcZoneID);
             ZonedDateTime storedDateEndTime = ZonedDateTime.ofInstant(localZDTend.toInstant(), utcZoneID);
+            ZoneId estZoneID = ZoneId.of("America/New_York");
+            ZonedDateTime businessZDTStart = ZonedDateTime.ofInstant(storedDateStartTime.toInstant(), estZoneID);
+            ZonedDateTime businessZDTEnd = ZonedDateTime.ofInstant(storedDateEndTime.toInstant(), estZoneID);
 
-            String formattedStart = storedDateStartTime.toLocalDate().toString() + " " + storedDateStartTime.toLocalTime().toString();
-            String formattedEnd = storedDateEndTime.toLocalDate().toString() + " " + storedDateEndTime.toLocalTime().toString();
+            //Check against business hours
+            LocalTime businessOpen = LocalTime.of(8, 0);
+            LocalTime businessClose = LocalTime.of(22, 0);
+            if (businessZDTStart.toLocalTime().getHour() < (businessOpen.getHour()) || businessZDTEnd.toLocalTime().getHour() > (businessClose.getHour())) {
+                throw new Exception("Input Exception: Time selected is outside of Business hours.\n Select time between 8:00(EST) and 22:00(EST).");
+            }
+            else {
+                ObservableList<Appointment> appointments = AppointmentDAO.displayAllAppointments();
+                for (Appointment appointment : appointments) {
+                    LocalDate thisDay = storedDateStartTime.toLocalDate();
+                    int hour = storedDateStartTime.toLocalTime().getHour();
+                    int min = storedDateStartTime.toLocalTime().getMinute();
+                    LocalTime thisTime = LocalTime.of(hour, min, 0);
+                    LocalDateTime thisApptLDT = LocalDateTime.of(thisDay, thisTime);
+                    String otherDay = appointment.getStartTime();
+                    String[] daySplit = otherDay.split(" ");
+                    LocalDate otherDate = LocalDate.parse(daySplit[0]);
+                    LocalTime otherTime = LocalTime.parse(daySplit[1]);
+                    LocalDateTime apptLDT = LocalDateTime.of(otherDate, otherTime);
+
+                    if (thisApptLDT.equals(apptLDT)) {
+                        throw new Exception("Input Exception: Time selected overlaps with other appointments. Please select a different time");
+                    }
+                }
+            }
 
 
             int userID = LoginScreen.userID;
@@ -138,18 +158,20 @@ public class AddAppointment implements Initializable {
             Pattern specialChar = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
 
             if (specialChar.matcher(apptTitle).find()) {
-                throw new Exception("Input Exception: Customer Name must not contain special characters such as !@#$%? etc.");
+                throw new Exception("Input Exception: Title must not contain special characters such as !@#$%? etc.");
             }
             if (specialChar.matcher(apptDescription).find()) {
-                throw new Exception("Input Exception: Address must not contain special characters such as !@#$%? etc.");
+                throw new Exception("Input Exception: Description must not contain special characters such as !@#$%? etc.");
             }
+
+            String formattedStart = storedDateStartTime.toLocalDate().toString() + " " + storedDateStartTime.toLocalTime().toString();
+            String formattedEnd = storedDateEndTime.toLocalDate().toString() + " " + storedDateEndTime.toLocalTime().toString();
 
             //Create Object
             Appointment appointment = new Appointment(apptID, apptTitle, apptDescription, location, apptType,
                     formattedStart, formattedEnd, userID, customerNameCombo.getValue().getCustomerID(), contact);
             //Save Local
             saveAppointment.add(appointment);
-
 
             // Confirm Saving Object
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -186,10 +208,10 @@ public class AddAppointment implements Initializable {
 
     }
     public ObservableList<LocalTime> listAppointmentTimes() {
-        int startHour = 8;
-        int endHour = 22;
+        int startHour = 0;
+        int endHour = 24;
 
-        for (int i = startHour * 60; i <= endHour * 60; i+=15) {
+        for (int i = startHour * 60; i < endHour * 60; i+=15) {
             int hour = i/60;
             int min = i%60;
             LocalTime timeSlotTime = LocalTime.of(hour,min);

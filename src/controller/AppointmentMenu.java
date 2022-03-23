@@ -23,6 +23,7 @@ import model.FirstLevelDivision;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class AppointmentMenu implements Initializable {
@@ -54,12 +55,12 @@ public class AppointmentMenu implements Initializable {
         apptType.setCellValueFactory(new PropertyValueFactory<>("type"));
         apptStart.setCellValueFactory(new PropertyValueFactory<>("startTime"));
         apptEnd.setCellValueFactory(new PropertyValueFactory<>("endTime"));
-        apptContact.setCellValueFactory(new PropertyValueFactory<>("contactID"));
+        apptContact.setCellValueFactory(new PropertyValueFactory<>("contactName"));
 
         try {
             apptTable.setItems(AppointmentDAO.displayAllAppointments());
-            System.out.println("QAM2_JavaApplication v1.0.0 Loaded");
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -132,19 +133,29 @@ public class AppointmentMenu implements Initializable {
 
     }
 
-    public void loadDeleteAppointment(ActionEvent actionEvent) throws SQLException {
+    public void loadDeleteAppointment(ActionEvent actionEvent) throws Exception {
         Appointment selectedAppointment = (Appointment) apptTable.getSelectionModel().getSelectedItem();
 
         if (selectedAppointment != null) {
-            AppointmentDAO.deleteAppointment(selectedAppointment);
-        }
-        ObservableList<Customer> customers = CustomerDAO.findCustomer(((Appointment) apptTable.getSelectionModel().getSelectedItem()).getCustomerID());
-        if(customers != null){
-            customers.get(0).deleteAssociatedAppointment(selectedAppointment);
-            System.out.println(customers.get(0).getAllAssociatedAppointment().toString());
-        }
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirm");
+            alert.setHeaderText("Delete Appointment?");
+            alert.setContentText("Press OK to Delete Appointment: " + selectedAppointment.getAppointmentID() + ". Press Cancel to close without deleting.");
 
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK)
+            {
+                AppointmentDAO.deleteAppointment(selectedAppointment);
+                ObservableList<Customer> customers = CustomerDAO.findCustomer(((Appointment) apptTable.getSelectionModel().getSelectedItem()).getCustomerID());
+                if(customers != null)
+                {
+                    customers.get(0).deleteAssociatedAppointment(selectedAppointment);
+                    System.out.println(customers.get(0).getAllAssociatedAppointment().toString());
+                }
+            }
+
+        }
         allApptRadio.setSelected(true);
-
+        apptTable.setItems(AppointmentDAO.displayAllAppointments());
     }
 }

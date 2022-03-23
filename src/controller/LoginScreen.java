@@ -1,6 +1,5 @@
 package controller;
 
-
 import dao.UserDAO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -12,13 +11,11 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import model.User;
 
-import javax.swing.*;
 import java.net.URL;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.TimeZone;
 
 public class LoginScreen implements Initializable {
 
@@ -83,6 +80,7 @@ public class LoginScreen implements Initializable {
     }
 
     public void onExit(ActionEvent actionEvent) {
+        Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+        stage.close();
     }
-
 }

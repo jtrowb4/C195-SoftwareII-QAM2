@@ -2,10 +2,6 @@ package controller;
 
 import dao.AppointmentDAO;
 import dao.CustomerDAO;
-import dao.FirstLevelDivisionDAO;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -17,15 +13,11 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import model.Appointment;
 import model.Customer;
-import model.FirstLevelDivision;
 import java.io.IOException;
 import java.net.URL;
 
-import java.sql.SQLException;
-import java.util.Locale;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -59,7 +51,7 @@ public class CustomerMenu implements Initializable {
             customerTable.setItems(CustomerDAO.displayAllCustomers());
 
         }
-    catch(Exception e) {
+        catch(Exception e) {
             e.printStackTrace();
         }
     }
@@ -136,36 +128,41 @@ public class CustomerMenu implements Initializable {
                 {
                     if (appointments.size() > 0)
                     {
-                        alert = new Alert(Alert.AlertType.CONFIRMATION);
-                        alert.setTitle("Confirm");
-                        alert.setHeaderText("Appointments exist for " + selectedCustomer.getCustomerName() + ".");
-                        alert.setContentText("Press OK to delete appointments and customer. Press Cancel to close without deleting.");
+                        Alert apptConfirm = new Alert(Alert.AlertType.CONFIRMATION);
+                        apptConfirm.setTitle("Confirm");
+                        apptConfirm.setHeaderText("Appointments exist for " + selectedCustomer.getCustomerName() + ".");
+                        apptConfirm.setContentText("Press OK to delete appointments and customer. Press Cancel to close without deleting.");
 
-                        Optional<ButtonType> apptResult = alert.showAndWait();
+                        Optional<ButtonType> apptResult = apptConfirm.showAndWait();
                         if (apptResult.get() == ButtonType.OK)
                         {
                             for (Appointment appt: appointments)
                             {
                                 selectedCustomer.getAllAssociatedAppointment().remove(appt);
                                 AppointmentDAO.deleteAppointment(appt);
-                                Alert inform = new Alert(Alert.AlertType.INFORMATION);
-                                inform.setTitle("Success Code 200: Success.");
-                                inform.setHeaderText("Processed Successfully.");
-                                inform.setContentText("Appointment: " + appt.getAppointmentID() + " for " + selectedCustomer.getCustomerName() + " has been deleted");
-
+                                Alert informApptDelete = new Alert(Alert.AlertType.INFORMATION);
+                                informApptDelete.setTitle("Success Code 200: Success.");
+                                informApptDelete.setHeaderText("Processed Successfully.");
+                                informApptDelete.setContentText("Appointment: " + appt.getAppointmentID() + " for " + selectedCustomer.getCustomerName() + " has been deleted");
+                                informApptDelete.show();
                             }
                         }
                     }
+                    Customer tempCustomer = selectedCustomer;
                     CustomerDAO.deleteCustomer(selectedCustomer);
+                    Alert inform = new Alert(Alert.AlertType.INFORMATION);
+                    inform.setTitle("Success Code 200: Success.");
+                    inform.setHeaderText("Processed Successfully.");
+                    inform.setContentText("Customer: " + tempCustomer.getCustomerName() + "(" + selectedCustomer.getCustomerID() + ")" + " has been deleted");
+                    inform.show();
                 }
-
             }
+
             customerTable.setItems(CustomerDAO.displayAllCustomers());
         }
 
         public void searchCustomer (ActionEvent actionEvent) throws Exception {
             String searchText = customerSearch.getText();
-            //int searchTextID = Integer.parseInt(customerSearch.getText());
 
             if (searchText == "") {
                 customerTable.setItems(CustomerDAO.displayAllCustomers());

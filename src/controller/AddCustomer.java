@@ -6,11 +6,8 @@ import dao.FirstLevelDivisionDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import model.Country;
@@ -123,15 +120,12 @@ public class AddCustomer implements Initializable {
                 throw new Exception("Input Exception: Phone Number must not contain special characters such as !@#$%? etc.");
             }
             else if (phoneNumber.length() != 10){
-                throw new Exception("Input Exception: Phone Number must contain 10 digits");
+                throw new Exception("Input Exception: Phone Number must contain 10 digits.");
             }
-
-            //Reformat Phone
-            String phoneNumberFormatted = phoneNumber.substring(0,3) + "-" + phoneNumber.substring(3,6) + "-" + phoneNumber.substring(6,10);
 
             //Create Object
                Customer customer = new Customer(customerID, customerName, customerAddress,
-                        postalCode, phoneNumberFormatted, firstLevel);
+                        postalCode, phoneNumber, firstLevel);
             //Save Local
                 saveCustomer.add(customer);
 

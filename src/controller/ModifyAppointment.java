@@ -96,12 +96,20 @@ public class ModifyAppointment implements Initializable {
             }
         }
 
-        String ldt = appointment.getStartTime();
-        String ldtSplit[] = ldt.split(" ");
-        LocalDate date = LocalDate.parse(ldtSplit[0]);
-        LocalTime time = LocalTime.parse(ldtSplit[1]);
-        datePicker.setValue(date);
-        startTimeCombo.setValue(time);
+        String dateTime = appointment.getStartTime();
+        String utcSplit[] = dateTime.split(" ");
+        LocalDate utcDate = LocalDate.parse(utcSplit[0]);
+        LocalTime utcTime = LocalTime.parse(utcSplit[1]);
+        LocalDateTime utcDateTime = LocalDateTime.of(utcDate,utcTime);
+        ZoneId zoneIdLocal = ZoneId.systemDefault();
+        ZoneId utcZone = ZoneId.of("UTC");
+        ZonedDateTime utcZDT = ZonedDateTime.of(utcDateTime, utcZone);
+        ZonedDateTime localZDT = ZonedDateTime.ofInstant(utcZDT.toInstant(), zoneIdLocal);
+
+        datePicker.setValue(localZDT.toLocalDate());
+        startTimeCombo.setValue(localZDT.toLocalTime());
+        apptTypeCombo.getSelectionModel().select(appointment.getType());
+
 
     }
         /**
@@ -170,9 +178,35 @@ public class ModifyAppointment implements Initializable {
                 ZoneId utcZoneID = ZoneId.of("UTC");
                 ZonedDateTime storedDateStartTime = ZonedDateTime.ofInstant(localZDTstart.toInstant(), utcZoneID);
                 ZonedDateTime storedDateEndTime = ZonedDateTime.ofInstant(localZDTend.toInstant(), utcZoneID);
+                ZoneId estZoneID = ZoneId.of("America/New_York");
+                ZonedDateTime businessZDTStart = ZonedDateTime.ofInstant(storedDateStartTime.toInstant(), estZoneID);
+                ZonedDateTime businessZDTEnd = ZonedDateTime.ofInstant(storedDateEndTime.toInstant(), estZoneID);
 
-                String formattedStart = storedDateStartTime.toLocalDate().toString() + " " + storedDateStartTime.toLocalTime().toString();
-                String formattedEnd = storedDateEndTime.toLocalDate().toString() + " " + storedDateEndTime.toLocalTime().toString();
+                //Check against business hours
+                LocalTime businessOpen = LocalTime.of(8, 0);
+                LocalTime businessClose = LocalTime.of(22, 0);
+                if (businessZDTStart.toLocalTime().getHour() < (businessOpen.getHour()) || businessZDTEnd.toLocalTime().getHour() > (businessClose.getHour())) {
+                    throw new Exception("Input Exception: Time selected is outside of Business hours.\n Select time between 8:00(EST) and 22:00(EST).");
+                }
+                else {
+                    ObservableList<Appointment> appointments = AppointmentDAO.displayAllAppointments();
+                    for (Appointment appointment : appointments) {
+                        LocalDate thisDay = storedDateStartTime.toLocalDate();
+                        int hour = storedDateStartTime.toLocalTime().getHour();
+                        int min = storedDateStartTime.toLocalTime().getMinute();
+                        LocalTime thisTime = LocalTime.of(hour, min, 0);
+                        LocalDateTime thisApptLDT = LocalDateTime.of(thisDay, thisTime);
+                        String otherDay = appointment.getStartTime();
+                        String[] daySplit = otherDay.split(" ");
+                        LocalDate otherDate = LocalDate.parse(daySplit[0]);
+                        LocalTime otherTime = LocalTime.parse(daySplit[1]);
+                        LocalDateTime apptLDT = LocalDateTime.of(otherDate, otherTime);
+
+                        if (thisApptLDT.equals(apptLDT)) {
+                            throw new Exception("Input Exception: Time selected overlaps with other appointments. Please select a different time");
+                        }
+                    }
+                }
 
 
                 int userID = LoginScreen.userID;
@@ -181,11 +215,14 @@ public class ModifyAppointment implements Initializable {
                 Pattern specialChar = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
 
                 if (specialChar.matcher(apptTitle).find()) {
-                    throw new Exception("Input Exception: Customer Name must not contain special characters such as !@#$%? etc.");
+                    throw new Exception("Input Exception: Title must not contain special characters such as !@#$%? etc.");
                 }
                 if (specialChar.matcher(apptDescription).find()) {
-                    throw new Exception("Input Exception: Address must not contain special characters such as !@#$%? etc.");
+                    throw new Exception("Input Exception: Description must not contain special characters such as !@#$%? etc.");
                 }
+
+                String formattedStart = storedDateStartTime.toLocalDate().toString() + " " + storedDateStartTime.toLocalTime().toString();
+                String formattedEnd = storedDateEndTime.toLocalDate().toString() + " " + storedDateEndTime.toLocalTime().toString();
 
                 //Create Object
                 Appointment appointment = new Appointment(apptID, apptTitle, apptDescription, location, apptType,

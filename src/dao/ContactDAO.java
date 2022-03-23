@@ -16,6 +16,10 @@ public class ContactDAO {
 
     public static ObservableList<Contact> displayAllContacts() throws SQLException, Exception{
 
+        if (allContacts.size() > 0){
+            allContacts.clear();
+        }
+
         DBConnector.openConnection();
         String searchQuery = "SELECT * FROM client_schedule.contacts";
         DBQuery.makeQuery(searchQuery);

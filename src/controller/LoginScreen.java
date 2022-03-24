@@ -11,9 +11,15 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import model.User;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URL;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 import java.util.ResourceBundle;
 /**
@@ -24,7 +30,7 @@ import java.util.ResourceBundle;
  * first scene for application
  */
 public class LoginScreen implements Initializable {
-
+    private FileWriter fileWriter;
     public Button loginButton;
     public Button exitButton;
     public Label zoneIDText;
@@ -46,7 +52,7 @@ public class LoginScreen implements Initializable {
      * Login button that ties to UserDAO
      * checks if username and password match db
      */
-    public void onButtonClick(ActionEvent actionEvent) {
+    public void onButtonClick(ActionEvent actionEvent) throws IOException {
         String password = passwordText.getText();
         String userName = userNameText.getText();
 
@@ -58,6 +64,7 @@ public class LoginScreen implements Initializable {
            userID = userLoginUserID;
             if ((userLoginName.equals(userName)) && (userLoginPassword.equals(password))){
                System.out.println("Login Success");
+               logEntry(userName, true);
                Parent root = FXMLLoader.load(getClass().getResource("/view/MainMenu.fxml"));
                Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
                Scene scene = new Scene(root, 800, 600);
@@ -66,6 +73,7 @@ public class LoginScreen implements Initializable {
                stage.show();
            }
            else{
+               logEntry(userName, false);
                userNameText.clear();
                passwordText.clear();
                throw new Exception("User Name or Password is invalid.");
@@ -74,7 +82,7 @@ public class LoginScreen implements Initializable {
         }
         catch(Exception e){
             System.out.println("Error: " + e.getMessage());
-
+            logEntry(userName, false);
             Alert alert = new Alert(Alert.AlertType.ERROR);
             if(Locale.getDefault().getLanguage().equals("en")) {
                 alert.setTitle("Error Code 400: Bad Request.");
@@ -97,5 +105,26 @@ public class LoginScreen implements Initializable {
     public void onExit(ActionEvent actionEvent) {
         Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
         stage.close();
+    }
+
+    public void logEntry(String userName, Boolean didSucceed) throws IOException {
+
+        String loggerFileName = "src/files/login_activity.txt", entry;
+
+        fileWriter = new FileWriter(loggerFileName, true);
+        PrintWriter outputToFile = new PrintWriter(fileWriter);
+
+        ZonedDateTime dateTimeUTC = ZonedDateTime.now(ZoneId.of("UTC"));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        //System.out.println(dateTimeUTC.format(formatter));
+
+        if(didSucceed == true){
+            entry = "Login Success | " + userName + " | " + dateTimeUTC.format(formatter) + " [UTC] ";
+        }
+        else{
+            entry = "Login Failed | " + userName + " | " + dateTimeUTC.format(formatter) + " [UTC] ";
+        }
+        outputToFile.println(entry);
+        outputToFile.close();
     }
 }

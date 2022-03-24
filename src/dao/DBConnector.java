@@ -3,6 +3,12 @@ package dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
+/**
+ * class DBConnector.java
+ *
+ * @author James Trowbridge
+ * contains connector information for the DB
+ */
 public abstract class DBConnector {
 
     private static final String protocol = "jdbc";

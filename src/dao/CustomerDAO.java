@@ -3,10 +3,15 @@ package dao;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Customer;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * class CustomerDAO.java
+ *
+ * @author James Trowbridge
+ *
+ */
 public class CustomerDAO {
 
     private static String joinCall = "SELECT Customer_ID,Customer_Name,Address,Postal_Code,Phone,client_schedule.customers.Division_ID,Division " +
@@ -14,6 +19,10 @@ public class CustomerDAO {
             "WHERE client_schedule.customers.Division_ID = client_schedule.first_level_divisions.Division_ID";
 
     private static ObservableList<Customer> allCustomers = FXCollections.observableArrayList();
+    /**
+     * displayAllCustomers gets all customers for tableview
+     * @return allCustomer
+     */
     public static ObservableList<Customer> displayAllCustomers() throws SQLException, Exception {
 
         if (allCustomers.size() > 0){
@@ -37,12 +46,16 @@ public class CustomerDAO {
         DBConnector.closeConnection();
         return allCustomers;
     }
-
+    /**
+     * addCustomer adds customer to all customer list
+     */
     public static void addCustomer(Customer customer) {
         allCustomers.add(customer);
-
     }
 
+    /**
+     * insertCustomer used to add customer to DB
+     */
     public static void insertCustomer(Customer customer) {
         DBConnector.openConnection();
         String insertCustomerQuery = "INSERT INTO client_schedule.customers (Customer_ID, Customer_Name, Address, Postal_Code, " +
@@ -56,7 +69,9 @@ public class CustomerDAO {
         DBQuery.makeQuery(insertCustomerQuery);
         DBConnector.closeConnection();
     }
-
+    /**
+     * updateCustomer used to update customer record on DB
+     */
     public static void updateCustomer(Customer customer) {
         DBConnector.openConnection();
         String updateCustomerQuery =
@@ -70,7 +85,9 @@ public class CustomerDAO {
         DBQuery.makeQuery(updateCustomerQuery);
         DBConnector.closeConnection();
     }
-
+    /**
+     * deleteCustomer used to delete customer record from DB
+     */
     public static void deleteCustomer(Customer customer){
         DBConnector.openConnection();
         String deleteCustomerQuery = "DELETE FROM client_schedule.customers WHERE Customer_ID = '" + customer.getCustomerID() + "'";

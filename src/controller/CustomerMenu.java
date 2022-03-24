@@ -21,7 +21,12 @@ import java.net.URL;
 
 import java.util.Optional;
 import java.util.ResourceBundle;
-
+/**
+ * class CustomerMenu.java
+ *
+ * @author James Trowbridge
+ *
+ */
 public class CustomerMenu implements Initializable {
 
     public TableView customerTable;
@@ -36,7 +41,9 @@ public class CustomerMenu implements Initializable {
     public Button modifyCustomerButton;
     public Button deleteCustomerButton;
     public Button backButton;
-
+    /**
+     * Initialize scene
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -56,7 +63,9 @@ public class CustomerMenu implements Initializable {
             e.printStackTrace();
         }
     }
-
+        /**
+         * load mainMenu scene
+         */
         public void toMainMenu (ActionEvent actionEvent) throws IOException {
 
             Parent root = FXMLLoader.load(getClass().getResource("/view/MainMenu.fxml"));
@@ -66,7 +75,12 @@ public class CustomerMenu implements Initializable {
             stage.setScene(scene);
             stage.show();
         }
-
+        /**
+         *
+         * @param actionEvent
+         * @throws IOException
+         * load Add Customer Menu
+         */
         public void loadAddCustomer (ActionEvent actionEvent) throws IOException {
 
             Parent root = FXMLLoader.load(getClass().getResource("/view/AddCustomer.fxml"));
@@ -79,7 +93,12 @@ public class CustomerMenu implements Initializable {
             stage.show();
 
         }
-
+        /**
+         *
+         * @param actionEvent
+         * @throws IOException
+         * load Modify Customer Menu
+         */
         public void loadModifyCustomer (ActionEvent actionEvent) throws IOException {
 
             try {
@@ -112,7 +131,12 @@ public class CustomerMenu implements Initializable {
             }
 
         }
-
+        /**
+         *
+         * @param actionEvent
+         * @throws IOException
+         * delete customer
+         */
         public void loadDeleteCustomer (ActionEvent actionEvent) throws Exception {
             Customer selectedCustomer = (Customer) customerTable.getSelectionModel().getSelectedItem();
 
@@ -166,7 +190,12 @@ public class CustomerMenu implements Initializable {
 
             customerTable.setItems(CustomerDAO.displayAllCustomers());
         }
-
+        /**
+         *
+         * @param actionEvent
+         * @throws IOException
+         * search customer function for tableview
+         */
         public void searchCustomer (ActionEvent actionEvent) throws Exception {
             String searchText = customerSearch.getText();
 

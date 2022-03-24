@@ -16,7 +16,13 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.util.Locale;
 import java.util.ResourceBundle;
-
+/**
+ * class LoginScreen.java
+ *
+ * @author James Trowbridge
+ *
+ * first scene for application
+ */
 public class LoginScreen implements Initializable {
 
     public Button loginButton;
@@ -26,13 +32,20 @@ public class LoginScreen implements Initializable {
     public PasswordField passwordText;
 
     public static int userID;
+
+    /**
+     * Initialize scene
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
         zoneIDText.setText("'" + ZoneId.systemDefault() + " " + ZoneId.systemDefault().getRules().getOffset(Instant.now()) + "'");
         System.out.println("QAM2_JavaApplication v1.0.0 Loaded");
     }
-
+    /**
+     * Login button that ties to UserDAO
+     * checks if username and password match db
+     */
     public void onButtonClick(ActionEvent actionEvent) {
         String password = passwordText.getText();
         String userName = userNameText.getText();
@@ -78,7 +91,9 @@ public class LoginScreen implements Initializable {
 
         }
     }
-
+    /**
+     * Exit button that closes application
+     */
     public void onExit(ActionEvent actionEvent) {
         Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
         stage.close();

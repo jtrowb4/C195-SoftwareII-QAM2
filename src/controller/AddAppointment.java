@@ -19,6 +19,12 @@ import java.time.*;
 import java.util.*;
 import java.util.regex.Pattern;
 
+/**
+ * class AddAppointment.java
+ *
+ * @author James Trowbridge
+ *
+ */
 public class AddAppointment implements Initializable {
 
     public Button saveButton;

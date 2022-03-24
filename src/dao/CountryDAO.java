@@ -3,14 +3,21 @@ package dao;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Country;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+/**
+ * class CountryDAO.java
+ *
+ * @author James Trowbridge
+ *
+ */
 public class CountryDAO {
 
     private static ObservableList<Country> allCountries = FXCollections.observableArrayList();
-
+    /**
+     * displayAllCountries gets all countries
+     * @return allCountries
+     */
     public static ObservableList<Country> displayAllCountries() throws SQLException, Exception{
 
         if (allCountries.size() > 0){

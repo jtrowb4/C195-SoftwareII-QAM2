@@ -20,6 +20,12 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
+/**
+ * class AddCustomer.java
+ *
+ * @author James Trowbridge
+ *
+ */
 public class AddCustomer implements Initializable {
     public TextField customerIDText;
     public TextField customerAddressText;
@@ -161,7 +167,10 @@ public class AddCustomer implements Initializable {
         }
 
     }
-
+    /**
+     * @param actionEvent cancel button action - uses country to display division.
+     * @throws IOException scene will not load or other exception
+     */
     public void countrySelection(ActionEvent actionEvent) throws Exception {
         int countryInt = countryCombo.getSelectionModel().getSelectedIndex();
         stateCombo.setItems(FirstLevelDivisionDAO.displayDivisions(countryInt + 1));

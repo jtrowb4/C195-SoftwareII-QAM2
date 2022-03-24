@@ -2,7 +2,6 @@ package controller;
 
 import dao.AppointmentDAO;
 import dao.CustomerDAO;
-import dao.FirstLevelDivisionDAO;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -12,20 +11,21 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.Appointment;
-import model.Contact;
 import model.Customer;
-import model.FirstLevelDivision;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.Optional;
 import java.util.ResourceBundle;
-
+/**
+ * class AppointmentMenu.java
+ *
+ * @author James Trowbridge
+ *
+ */
 public class AppointmentMenu implements Initializable {
     public Button backButton;
     public TableView apptTable;
@@ -45,6 +45,9 @@ public class AppointmentMenu implements Initializable {
     public Button modifyAppointmentButton;
     public Button deleteAppointmentButton;
 
+    /**
+     * Initialize scene
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -65,7 +68,9 @@ public class AppointmentMenu implements Initializable {
         }
     }
 
-
+    /**
+     * load mainMenu scene
+     */
     public void toMainMenu(ActionEvent actionEvent) throws IOException {
 
         Parent root = FXMLLoader.load(getClass().getResource("/view/MainMenu.fxml"));
@@ -75,23 +80,35 @@ public class AppointmentMenu implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
-
+    /**
+     * turn on radio button for Month view
+     */
     public void monthApptOn(ActionEvent actionEvent) throws Exception {
         AppointmentDAO.displayThisMonthAppointments();
     }
-
+    /**
+     * turn on radio button for Week view
+     */
     public void weekApptOn(ActionEvent actionEvent) throws Exception {
         AppointmentDAO.displayThisWeekAppointments();
     }
-
+    /**
+     * turn on radio button for All appointment view
+     */
     public void allApptOn(ActionEvent actionEvent) throws Exception {
 
         AppointmentDAO.displayAllAppointments();
     }
 
+    /**
+     *
+     * @param actionEvent
+     * @throws IOException
+     * load Add Appointment Menu
+     */
     public void loadAddAppointment(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/view/AddAppointment.fxml"));
-        Stage stage = new Stage(); //(Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+        Stage stage = new Stage();
         Scene scene = new Scene(root, 600, 450);
         stage.setTitle("QAM2_JavaApplication: Add Appointment");
         stage.setScene(scene);
@@ -99,7 +116,12 @@ public class AppointmentMenu implements Initializable {
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.show();
     }
-
+    /**
+     *
+     * @param actionEvent
+     * @throws IOException
+     * load Modify Appointment Menu
+     */
     public void loadModifyAppointment(ActionEvent actionEvent) throws IOException {
         try {
             Appointment selectedAppointment = (Appointment) apptTable.getSelectionModel().getSelectedItem();
@@ -132,7 +154,12 @@ public class AppointmentMenu implements Initializable {
         }
 
     }
-
+    /**
+     *
+     * @param actionEvent
+     * @throws IOException
+     * delete appointment
+     */
     public void loadDeleteAppointment(ActionEvent actionEvent) throws Exception {
         Appointment selectedAppointment = (Appointment) apptTable.getSelectionModel().getSelectedItem();
 

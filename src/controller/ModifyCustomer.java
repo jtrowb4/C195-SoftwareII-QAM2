@@ -19,7 +19,12 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
-
+/**
+ * class ModifyCustomer.java
+ *
+ * @author James Trowbridge
+ *
+ */
 public class ModifyCustomer implements Initializable {
     public Button saveButton;
     public Button cancelButton;
@@ -50,7 +55,11 @@ public class ModifyCustomer implements Initializable {
             e.printStackTrace();
         }
     }
-
+    /**
+     *
+     * @param customer - loads in selected customer to modify
+     * @throws Exception
+     */
     public void loadSelectedCustomer(Customer customer) throws Exception {
 
         incomingCustomer.add(0, customer);
@@ -209,7 +218,10 @@ public class ModifyCustomer implements Initializable {
 
         }
     }
-
+    /**
+     * @param actionEvent cancel button action - uses country to display division.
+     * @throws IOException scene will not load or other exception
+     */
     public void countrySelection(ActionEvent actionEvent) throws Exception {
         int countryInt = countryCombo.getSelectionModel().getSelectedIndex();
         stateCombo.setItems(FirstLevelDivisionDAO.displayDivisions(countryInt+1));

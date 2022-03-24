@@ -1,14 +1,20 @@
 package dao;
 
 import model.User;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * class UserDAO.java
+ *
+ * @author James Trowbridge
+ */
 public class UserDAO {
     // create an interface that holds methods such as Create, Read, Update, and Delete.
     // define those methods in the classes you create for user, customer, contact, appointment, etc.
-
+    /**
+     * getUserLogin gets User
+     */
     public static User getUserLogin(String userNameText) throws SQLException, Exception{
 
         DBConnector.openConnection();

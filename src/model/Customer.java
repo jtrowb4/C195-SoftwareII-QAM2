@@ -1,18 +1,13 @@
 package model;
-/**
- * class Customer.java
- */
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
+ * class Customer.java
  *
  * @author James Trowbridge
  */
-
-import dao.AppointmentDAO;
-import dao.FirstLevelDivisionDAO;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.fxml.FXMLLoader;
 
 public class Customer {
     //This class will have information and methods related to the Customer table

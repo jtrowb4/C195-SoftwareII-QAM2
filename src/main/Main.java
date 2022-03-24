@@ -1,27 +1,18 @@
 package main;
 
-/**
- * class Main.java
- */
-
-/**
- *
- * @author James Trowbridge
- */
-import controller.AddAppointment;
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
-import java.time.*;
-import java.time.temporal.ChronoUnit;
 import java.util.Locale;
 import java.util.ResourceBundle;
-
+/**
+ * class Main.java
+ * Main method to start application
+ * application v1.0.0.
+ * @author James Trowbridge
+ */
 public class Main extends Application {
     /**
      * Utilize the start method and set the stage

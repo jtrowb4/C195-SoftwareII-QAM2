@@ -3,17 +3,21 @@ package dao;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.Contact;
-import model.FirstLevelDivision;
-import model.User;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+/**
+ * class ContactDAO.java
+ *
+ * @author James Trowbridge
+ *
+ */
 public class ContactDAO {
-    // create an interface that holds methods such as Create, Read, Update, and Delete.
-    // define those methods in the classes you create for user, customer, contact, appointment, etc.
-    private static ObservableList<Contact> allContacts = FXCollections.observableArrayList();
 
+    private static ObservableList<Contact> allContacts = FXCollections.observableArrayList();
+    /**
+     * displayAllContacts gets all contacts
+     * @return allContacts
+     */
     public static ObservableList<Contact> displayAllContacts() throws SQLException, Exception{
 
         if (allContacts.size() > 0){

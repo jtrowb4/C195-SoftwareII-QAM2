@@ -3,8 +3,14 @@ package dao;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+/**
+ * class DBQuery.java
+ *
+ * @author James Trowbridge
+ * used to understand queries
+ */
 public abstract class DBQuery {
-    private static String query;
+
     private static Statement statement;
     private static ResultSet result;
 

@@ -10,19 +10,21 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-
 import model.Appointment;
 import model.Contact;
 import model.Customer;
-import model.FirstLevelDivision;
-
-
 import java.io.IOException;
 import java.net.URL;
-
 import java.time.*;
 import java.util.*;
 import java.util.regex.Pattern;
+
+/**
+ * class ModifyAppointment.java
+ *
+ * @author James Trowbridge
+ *
+ */
 public class ModifyAppointment implements Initializable {
 
     public Button saveButton;
@@ -66,6 +68,11 @@ public class ModifyAppointment implements Initializable {
         }
     }
 
+    /**
+     *
+     * @param appointment - loads in selected appointment to modify
+     * @throws Exception
+     */
     public void loadSelectedAppointment(Appointment appointment) throws Exception {
 
         incomingAppointment.add(0, appointment);
@@ -280,7 +287,7 @@ public class ModifyAppointment implements Initializable {
         }
 
     /**
-     * Lamda using CalcInterface timeCalc() method
+     * Lambda using CalcInterface timeCalc() method
      * for calculating time in minutes
      * @return a list containing all local times
      */

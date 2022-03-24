@@ -1,13 +1,9 @@
 package model;
 /**
  * class User.java
- */
-
-/**
  *
  * @author James Trowbridge
  */
-
 public class User {
 
     // class related to the User Table
@@ -15,6 +11,9 @@ public class User {
     private String userName;
     private String password;
 
+    /**
+     * Constructor for User
+     */
     public User (int userID, String userName, String password) {
         this.userID = userID;
         this.userName = userName;

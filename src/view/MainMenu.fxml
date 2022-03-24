@@ -67,7 +67,7 @@
                                        <Font name="Droid Sans" size="18.0" />
                                    </font>
                                </Button>
-                               <Button fx:id="reportButton" layoutX="302.0" layoutY="392.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="197.0" text="Report Menu">
+                               <Button fx:id="reportButton" layoutX="302.0" layoutY="392.0" mnemonicParsing="false" onAction="#toReportsMenu" prefHeight="33.0" prefWidth="197.0" text="Report Menu">
                                    <font>
                                        <Font name="Droid Sans" size="18.0" />
                                    </font>

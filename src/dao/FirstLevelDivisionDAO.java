@@ -2,16 +2,22 @@ package dao;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import model.Country;
 import model.FirstLevelDivision;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * class FirstLevelDivisionDAO.java
+ *
+ * @author James Trowbridge
+ */
 public class FirstLevelDivisionDAO {
 
     private static ObservableList<FirstLevelDivision> allDivisions = FXCollections.observableArrayList();
-
+    /**
+     * displayAllDivision gets all divisions for tableview
+     * @return allDivisions
+     */
     public static ObservableList<FirstLevelDivision> displayAllDivisions() throws SQLException, Exception{
 
         if (allDivisions.size() > 0){
@@ -30,6 +36,10 @@ public class FirstLevelDivisionDAO {
         DBConnector.closeConnection();
         return allDivisions;
     }
+    /**
+     * displayDivision gets divisions for specific Country
+     * @return allDivisions
+     */
     public static ObservableList<FirstLevelDivision> displayDivisions(int countryID) throws SQLException, Exception{
 
         if (allDivisions.size() > 0){

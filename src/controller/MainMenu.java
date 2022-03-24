@@ -21,13 +21,22 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.Locale;
 import java.util.ResourceBundle;
-
+/**
+ * class MainMenu.java
+ *
+ * @author James Trowbridge
+ *
+ */
 public class MainMenu implements Initializable {
     public Button logoutButton;
     public Button scheduleButton;
     public Button customerButton;
     public Button reportButton;
 
+
+    /**
+     * Initialize scene
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ObservableList<Appointment>appointments = null;
@@ -70,19 +79,27 @@ public class MainMenu implements Initializable {
 
     }
 
-
-        public void toLoginScreen(ActionEvent actionEvent) throws IOException {
-        Locale currentLocale = Locale.getDefault();
-        ResourceBundle resource = ResourceBundle.getBundle("utility.LanguageBundle", currentLocale);
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        Parent root = fxmlLoader.load(getClass().getResource("/view/LoginScreen.fxml"), resource);
-        Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root, 800, 600);
-        stage.setTitle("QAM2_JavaApplication");
-        stage.setScene(scene);
-        stage.show();
+    /**
+     * Back button that loads LoginMenu
+     */
+    public void toLoginScreen(ActionEvent actionEvent) throws IOException {
+    Locale currentLocale = Locale.getDefault();
+    ResourceBundle resource = ResourceBundle.getBundle("utility.LanguageBundle", currentLocale);
+    FXMLLoader fxmlLoader = new FXMLLoader();
+    Parent root = fxmlLoader.load(getClass().getResource("/view/LoginScreen.fxml"), resource);
+    Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+    Scene scene = new Scene(root, 800, 600);
+    stage.setTitle("QAM2_JavaApplication");
+    stage.setScene(scene);
+    stage.show();
     }
 
+    /**
+     *
+     * @param actionEvent
+     * @throws IOException
+     * Loads Customer Menu - allows for add, modify, and deleting of Customers
+     */
     public void toCustomerMenu(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/view/CustomerMenu.fxml"));
         Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
@@ -91,7 +108,12 @@ public class MainMenu implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
-
+    /**
+     *
+     * @param actionEvent
+     * @throws IOException
+     * Loads Appointment Menu - allows for add, modify, and deleting of Appointments
+     */
     public void toAppointmentMenu(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/view/AppointmentMenu.fxml"));
         Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
@@ -100,7 +122,12 @@ public class MainMenu implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
-
+    /**
+     *
+     * @param actionEvent
+     * @throws IOException
+     * Loads Reports Menu
+     */
     public void toReportsMenu(ActionEvent actionEvent) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/view/ReportsMenu.fxml"));
         Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
@@ -109,4 +136,5 @@ public class MainMenu implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
+
 }

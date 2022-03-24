@@ -1,17 +1,9 @@
 package model;
 /**
  * class Appointment.java
- */
-
-/**
  *
  * @author James Trowbridge
  */
-import dao.ContactDAO;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-
-import java.time.*;
 
 public class Appointment {
 
@@ -65,127 +57,123 @@ public class Appointment {
     public int getAppointmentID() {
         return appointmentID;
     }
-
     /**
      * @param appointmentID to set
      */
     public void setAppointmentID(int appointmentID) {
         this.appointmentID = appointmentID;
     }
-
     /**
      * @return the title
      */
     public String getTitle() {
         return title;
     }
-
     /**
      * @param title to set
      */
-    public void setTitle(String title) {
-        this.title = title;
-
-    }
-
+    public void setTitle(String title) { this.title = title;   }
     /**
      * @return the description
      */
     public String getDescription() {
         return description;
     }
-
     /**
      * @param description to set
      */
     public void setDescription(String description) {
         this.description = description;
     }
-
     /**
      * @return the location
      */
     public String getLocation() {
         return location;
     }
-
     /**
      * @param location to set
      */
     public void setLocation(String location) {
         this.location = location;
     }
-
     /**
      * @return the type
      */
     public String getType() {
         return type;
     }
-
     /**
      * @param type to set
      */
     public void setType(String type) {
         this.type = type;
     }
-
     /**
      * @return the startTime
      */
     public String getStartTime() {
         return startTime;
     }
-
     /**
      * @param startTime to set
      */
     public void setStartTime(String startTime) {
         this.startTime = startTime;
     }
-
     /**
      * @return the endTime
      */
     public String getEndTime() {
         return endTime;
     }
-
     /**
      * @param endTime to set
      */
     public void setEndTime(String endTime) {
         this.endTime = endTime;
     }
-
+    /**
+     * @return the customerID
+     */
     public int getCustomerID() {
         return customerID;
     }
-
+    /**
+     * @param customerID to set
+     */
     public void setCustomerID(int customerID) {
         this.customerID = customerID;
     }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
+    /**
+     * @return the userId
+     */
+    public int getUserId() {return userId;}
+    /**
+     * @param userId to set
+     */
+    public void setUserId(int userId) {this.userId = userId;}
+    /**
+     * @return the contactID
+     */
     public int getContactID() {
         return contactID;
     }
-
+    /**
+     * @param contactID to set
+     */
     public void setContactID(int contactID) {
         this.contactID = contactID;
     }
-
+    /**
+     * @return the contactName
+     */
     public String getContactName() {
         return contactName;
     }
-
+    /**
+     * @param contactName to set
+     */
     public void setContactName(String contactName) {
         this.contactName = contactName;
     }

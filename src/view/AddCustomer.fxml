@@ -98,7 +98,7 @@
                             <Insets bottom="5.0" right="5.0" top="5.0" />
                         </GridPane.margin>
                     </TextField>
-                    <TextField fx:id="customerAddressText" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="300.0" promptText="1234 Street Address St." text="test" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                    <TextField fx:id="customerAddressText" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="300.0" promptText="1234 Street Address St." GridPane.columnIndex="1" GridPane.rowIndex="3">
                         <font>
                             <Font name="Droid Sans" size="12.0" />
                         </font>
@@ -106,7 +106,7 @@
                             <Insets left="-100.0" right="5.0" />
                         </GridPane.margin>
                     </TextField>
-                    <TextField fx:id="postalText" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="110.0" promptText="12345" text="test" GridPane.rowIndex="5">
+                    <TextField fx:id="postalText" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="110.0" promptText="12345" GridPane.rowIndex="5">
                         <font>
                             <Font name="Droid Sans" size="12.0" />
                         </font>
@@ -114,7 +114,7 @@
                             <Insets left="100.0" right="5.0" />
                         </GridPane.margin>
                     </TextField>
-                    <TextField fx:id="phoneText" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="110.0" promptText="555-323-1793" text="test" GridPane.rowIndex="6">
+                    <TextField fx:id="phoneText" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="110.0" promptText="5551113333" GridPane.rowIndex="6">
                         <font>
                             <Font name="Droid Sans" size="12.0" />
                         </font>
@@ -122,14 +122,14 @@
                             <Insets left="100.0" right="5.0" />
                         </GridPane.margin>
                     </TextField>
-                    <TextField fx:id="nameFirstText" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="300.0" promptText="John" text="test" GridPane.rowIndex="1">
+                    <TextField fx:id="nameFirstText" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="300.0" promptText="John" GridPane.rowIndex="1">
                         <GridPane.margin>
                             <Insets left="128.0" right="5.0" />
                         </GridPane.margin>
                         <font>
                             <Font name="Droid Sans" size="12.0" />
                         </font></TextField>
-                    <TextField fx:id="nameLastText" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="300.0" promptText="Doe" text="test" GridPane.rowIndex="2">
+                    <TextField fx:id="nameLastText" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="300.0" promptText="Doe" GridPane.rowIndex="2">
                         <GridPane.margin>
                             <Insets left="128.0" right="5.0" />
                         </GridPane.margin>

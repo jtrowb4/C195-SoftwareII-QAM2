@@ -121,6 +121,7 @@ public class AddAppointment implements Initializable {
             int endHour = startTimeCombo.getValue().getHour();
             int endMin = startTimeCombo.getValue().getMinute();
             LocalTime end = LocalTime.of(endHour, endMin, 0);
+            startTimeCombo.getSelectionModel().select(timeIndex);
             LocalDateTime localDateStartTime = LocalDateTime.of(date, start);
             LocalDateTime localDateEndTime = LocalDateTime.of(date, end);
             ZoneId localZoneID = ZoneId.systemDefault();
@@ -147,13 +148,15 @@ public class AddAppointment implements Initializable {
                     int min = storedDateStartTime.toLocalTime().getMinute();
                     LocalTime thisTime = LocalTime.of(hour, min, 0);
                     LocalDateTime thisApptLDT = LocalDateTime.of(thisDay, thisTime);
-                    String otherDay = appointment.getStartTime();
+                    String otherDay = appointment.getStartTime(); //grabbing local
                     String[] daySplit = otherDay.split(" ");
                     LocalDate otherDate = LocalDate.parse(daySplit[0]);
                     LocalTime otherTime = LocalTime.parse(daySplit[1]);
                     LocalDateTime apptLDT = LocalDateTime.of(otherDate, otherTime);
+                    ZonedDateTime apptZoneLocal= ZonedDateTime.of(apptLDT, localZoneID);
+                    ZonedDateTime apptZoneUTC= ZonedDateTime.ofInstant(apptZoneLocal.toInstant(), utcZoneID);
 
-                    if (thisApptLDT.equals(apptLDT)) {
+                    if (thisApptLDT.equals(apptZoneUTC.toLocalDateTime())) {
                         throw new Exception("Input Exception: Time selected overlaps with other appointments. Please select a different time");
                     }
                 }

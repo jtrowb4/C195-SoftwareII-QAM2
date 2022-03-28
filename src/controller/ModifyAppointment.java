@@ -106,14 +106,14 @@ public class ModifyAppointment implements Initializable {
         }
 
         String dateTime = appointment.getStartTime();
-        String utcSplit[] = dateTime.split(" ");
-        LocalDate utcDate = LocalDate.parse(utcSplit[0]);
-        LocalTime utcTime = LocalTime.parse(utcSplit[1]);
-        LocalDateTime utcDateTime = LocalDateTime.of(utcDate,utcTime);
+        String dateSplit[] = dateTime.split(" ");
+        LocalDate date = LocalDate.parse(dateSplit[0]);
+        LocalTime time = LocalTime.parse(dateSplit[1]);
+        LocalDateTime localDateTime = LocalDateTime.of(date,time );
         ZoneId zoneIdLocal = ZoneId.systemDefault();
-        ZoneId utcZone = ZoneId.of("UTC");
-        ZonedDateTime utcZDT = ZonedDateTime.of(utcDateTime, utcZone);
-        ZonedDateTime localZDT = ZonedDateTime.ofInstant(utcZDT.toInstant(), zoneIdLocal);
+        //ZoneId utcZone = ZoneId.of("UTC");
+        ZonedDateTime localZDT = ZonedDateTime.of(localDateTime, zoneIdLocal);
+        //ZonedDateTime localZDT = ZonedDateTime.ofInstant(utcZDT.toInstant(), zoneIdLocal);
 
         datePicker.setValue(localZDT.toLocalDate());
         startTimeCombo.setValue(localZDT.toLocalTime());
@@ -178,6 +178,7 @@ public class ModifyAppointment implements Initializable {
                 startTimeCombo.getSelectionModel().select(timeIndex + 1);
                 int endHour = startTimeCombo.getValue().getHour();
                 int endMin = startTimeCombo.getValue().getMinute();
+                startTimeCombo.getSelectionModel().select(timeIndex);
                 LocalTime end = LocalTime.of(endHour, endMin, 0);
                 LocalDateTime localDateStartTime = LocalDateTime.of(date, start);
                 LocalDateTime localDateEndTime = LocalDateTime.of(date, end);
@@ -210,8 +211,14 @@ public class ModifyAppointment implements Initializable {
                         LocalDate otherDate = LocalDate.parse(daySplit[0]);
                         LocalTime otherTime = LocalTime.parse(daySplit[1]);
                         LocalDateTime apptLDT = LocalDateTime.of(otherDate, otherTime);
+                        ZonedDateTime apptZoneLocal= ZonedDateTime.of(apptLDT, localZoneID);
+                        ZonedDateTime apptZoneUTC= ZonedDateTime.ofInstant(apptZoneLocal.toInstant(), utcZoneID);
 
-                        if (thisApptLDT.equals(apptLDT)) {
+                        if (appointment.getAppointmentID() == incomingAppointment.get(0).getAppointmentID())
+                        {
+                            //do nothing
+                        }
+                        else if (thisApptLDT.equals(apptZoneUTC.toLocalDateTime())) {
                             throw new Exception("Input Exception: Time selected overlaps with other appointments.\n Please select a different time.");
                         }
                     }

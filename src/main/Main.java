@@ -10,7 +10,7 @@ import java.util.ResourceBundle;
 /**
  * class Main.java
  * Main method to start application
- * application v1.0.0.
+ * application v1.1.0.
  * @author James Trowbridge
  */
 public class Main extends Application {

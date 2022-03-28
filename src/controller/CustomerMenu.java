@@ -171,7 +171,8 @@ public class CustomerMenu implements Initializable {
                                 Alert informApptDelete = new Alert(Alert.AlertType.INFORMATION);
                                 informApptDelete.setTitle("Success Code 200: Success.");
                                 informApptDelete.setHeaderText("Processed Successfully.");
-                                informApptDelete.setContentText("Appointment: " + appt.getAppointmentID() + " for " + selectedCustomer.getCustomerName() + " has been deleted");
+                                informApptDelete.setContentText("Appointment ID# " + appt.getAppointmentID() + " - " + appt.getType() + " for "
+                                        + selectedCustomer.getCustomerName() + " at " + appt.getStartTime() + " has been deleted");
                                 informApptDelete.show();
                             }
 

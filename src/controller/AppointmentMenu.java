@@ -39,11 +39,11 @@ public class AppointmentMenu implements Initializable {
     public TableColumn apptEnd;
     public ToggleGroup apptGroup;
     public RadioButton allApptRadio;
-    public RadioButton weekApptRadio;
-    public RadioButton monthApptRadio;
     public Button addAppointmentButton;
     public Button modifyAppointmentButton;
     public Button deleteAppointmentButton;
+    public RadioButton allWeekRadio;
+    public RadioButton allMonthRadio;
 
     /**
      * Initialize scene
@@ -167,7 +167,8 @@ public class AppointmentMenu implements Initializable {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Confirm");
             alert.setHeaderText("Delete Appointment?");
-            alert.setContentText("Press OK to Delete Appointment: " + selectedAppointment.getAppointmentID() + ". Press Cancel to close without deleting.");
+            alert.setContentText("Press OK to Delete - \n\nAppointment ID#: " + selectedAppointment.getAppointmentID() + "\nType: "
+                    + selectedAppointment.getType() + "\nTime: " + selectedAppointment.getStartTime() + "\n\nPress Cancel to close without deleting.");
 
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK)
@@ -183,7 +184,7 @@ public class AppointmentMenu implements Initializable {
                 Alert informApptDelete = new Alert(Alert.AlertType.INFORMATION);
                 informApptDelete.setTitle("Success Code 200: Success.");
                 informApptDelete.setHeaderText("Processed Successfully.");
-                informApptDelete.setContentText("Appointment: " + selectedAppointment.getAppointmentID() + " at " + selectedAppointment.getStartTime() + " has been deleted");
+                informApptDelete.setContentText("Appointment ID#: " + selectedAppointment.getAppointmentID() + " - " + selectedAppointment.getType() + " at " + selectedAppointment.getStartTime() + " has been deleted");
                 informApptDelete.show();
             }
 

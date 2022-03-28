@@ -6,6 +6,10 @@ import model.Appointment;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import java.sql.Timestamp;
+import java.time.*;
+
+
 /**
  * class AppointmentDAO.java
  *
@@ -23,6 +27,7 @@ public class AppointmentDAO {
     private static String weekApptsQuery = joinCall + " AND week(start)= week(now())";
     private static String monthApptsQuery = joinCall + " AND Month(start)= Month(now())";
 
+    private static ZoneId userZoneID = ZoneId.systemDefault();
     /**
      * displayAllAppointments gets all appointments for tableview
      * @return allAppointments
@@ -41,8 +46,33 @@ public class AppointmentDAO {
             String appointmentDescription = result.getString("Description");
             String appointmentLocation = result.getString("Location");
             String appointmentType = result.getString("Type");
-            String appointmentStart = result.getString("Start");
-            String appointmentEnd = result.getString("End");
+
+            String dateTime = result.getString("Start");
+            String[] utcSplit = dateTime.split(" ");
+            LocalDate utcDate = LocalDate.parse(utcSplit[0]);
+            LocalTime utcTime = LocalTime.parse(utcSplit[1]);
+            LocalDateTime utcDateTime = LocalDateTime.of(utcDate,utcTime);
+            ZoneId zoneIdLocal = ZoneId.systemDefault();
+            ZoneId utcZone = ZoneId.of("UTC");
+            ZonedDateTime utcZDT = ZonedDateTime.of(utcDateTime, utcZone);
+            ZonedDateTime localZDT = ZonedDateTime.ofInstant(utcZDT.toInstant(), zoneIdLocal);
+            String startDate = localZDT.toLocalDateTime().toLocalDate().toString();
+            String startTime = localZDT.toLocalDateTime().toLocalTime().toString();
+            String appointmentStart = startDate + " " + startTime;
+
+            dateTime = result.getString("End");
+            utcSplit = dateTime.split(" ");
+            utcDate = LocalDate.parse(utcSplit[0]);
+            utcTime = LocalTime.parse(utcSplit[1]);
+            utcDateTime = LocalDateTime.of(utcDate,utcTime);
+            zoneIdLocal = ZoneId.systemDefault();
+            utcZone = ZoneId.of("UTC");
+            utcZDT = ZonedDateTime.of(utcDateTime, utcZone);
+            localZDT = ZonedDateTime.ofInstant(utcZDT.toInstant(), zoneIdLocal);
+            String endDate = localZDT.toLocalDateTime().toLocalDate().toString();
+            String endTime = localZDT.toLocalDateTime().toLocalTime().toString();
+            String appointmentEnd = endDate + " " + endTime;
+
             int userID = result.getInt("User_ID");
             int customerID = result.getInt("Customer_ID");
             int contactID = result.getInt("Contact_ID");
@@ -126,8 +156,33 @@ public class AppointmentDAO {
             String appointmentDescription = result.getString("Description");
             String appointmentLocation = result.getString("Location");
             String appointmentType = result.getString("Type");
-            String appointmentStart = result.getString("Start");
-            String appointmentEnd = result.getString("End");
+
+            String dateTime = result.getString("Start");
+            String[] utcSplit = dateTime.split(" ");
+            LocalDate utcDate = LocalDate.parse(utcSplit[0]);
+            LocalTime utcTime = LocalTime.parse(utcSplit[1]);
+            LocalDateTime utcDateTime = LocalDateTime.of(utcDate,utcTime);
+            ZoneId zoneIdLocal = ZoneId.systemDefault();
+            ZoneId utcZone = ZoneId.of("UTC");
+            ZonedDateTime utcZDT = ZonedDateTime.of(utcDateTime, utcZone);
+            ZonedDateTime localZDT = ZonedDateTime.ofInstant(utcZDT.toInstant(), zoneIdLocal);
+            String startDate = localZDT.toLocalDateTime().toLocalDate().toString();
+            String startTime = localZDT.toLocalDateTime().toLocalTime().toString();
+            String appointmentStart = startDate + " " + startTime;
+
+            dateTime = result.getString("End");
+            utcSplit = dateTime.split(" ");
+            utcDate = LocalDate.parse(utcSplit[0]);
+            utcTime = LocalTime.parse(utcSplit[1]);
+            utcDateTime = LocalDateTime.of(utcDate,utcTime);
+            zoneIdLocal = ZoneId.systemDefault();
+            utcZone = ZoneId.of("UTC");
+            utcZDT = ZonedDateTime.of(utcDateTime, utcZone);
+            localZDT = ZonedDateTime.ofInstant(utcZDT.toInstant(), zoneIdLocal);
+            String endDate = localZDT.toLocalDateTime().toLocalDate().toString();
+            String endTime = localZDT.toLocalDateTime().toLocalTime().toString();
+            String appointmentEnd = endDate + " " + endTime;
+
             int userID = result.getInt("User_ID");
             int customerID = result.getInt("Customer_ID");
             int contactID = result.getInt("Contact_ID");
@@ -152,8 +207,33 @@ public class AppointmentDAO {
             String appointmentDescription = result.getString("Description");
             String appointmentLocation = result.getString("Location");
             String appointmentType = result.getString("Type");
-            String appointmentStart = result.getString("Start");
-            String appointmentEnd = result.getString("End");
+
+            String dateTime = result.getString("Start");
+            String[] utcSplit = dateTime.split(" ");
+            LocalDate utcDate = LocalDate.parse(utcSplit[0]);
+            LocalTime utcTime = LocalTime.parse(utcSplit[1]);
+            LocalDateTime utcDateTime = LocalDateTime.of(utcDate,utcTime);
+            ZoneId zoneIdLocal = ZoneId.systemDefault();
+            ZoneId utcZone = ZoneId.of("UTC");
+            ZonedDateTime utcZDT = ZonedDateTime.of(utcDateTime, utcZone);
+            ZonedDateTime localZDT = ZonedDateTime.ofInstant(utcZDT.toInstant(), zoneIdLocal);
+            String startDate = localZDT.toLocalDateTime().toLocalDate().toString();
+            String startTime = localZDT.toLocalDateTime().toLocalTime().toString();
+            String appointmentStart = startDate + " " + startTime;
+
+            dateTime = result.getString("End");
+            utcSplit = dateTime.split(" ");
+            utcDate = LocalDate.parse(utcSplit[0]);
+            utcTime = LocalTime.parse(utcSplit[1]);
+            utcDateTime = LocalDateTime.of(utcDate,utcTime);
+            zoneIdLocal = ZoneId.systemDefault();
+            utcZone = ZoneId.of("UTC");
+            utcZDT = ZonedDateTime.of(utcDateTime, utcZone);
+            localZDT = ZonedDateTime.ofInstant(utcZDT.toInstant(), zoneIdLocal);
+            String endDate = localZDT.toLocalDateTime().toLocalDate().toString();
+            String endTime = localZDT.toLocalDateTime().toLocalTime().toString();
+            String appointmentEnd = endDate + " " + endTime;
+
             int userID = result.getInt("User_ID");
             int customerID = result.getInt("Customer_ID");
             int contactID = result.getInt("Contact_ID");
@@ -179,8 +259,33 @@ public class AppointmentDAO {
             String appointmentDescription = result.getString("Description");
             String appointmentLocation = result.getString("Location");
             String appointmentType = result.getString("Type");
-            String appointmentStart = result.getString("Start");
-            String appointmentEnd = result.getString("End");
+
+            String dateTime = result.getString("Start");
+            String[] utcSplit = dateTime.split(" ");
+            LocalDate utcDate = LocalDate.parse(utcSplit[0]);
+            LocalTime utcTime = LocalTime.parse(utcSplit[1]);
+            LocalDateTime utcDateTime = LocalDateTime.of(utcDate,utcTime);
+            ZoneId zoneIdLocal = ZoneId.systemDefault();
+            ZoneId utcZone = ZoneId.of("UTC");
+            ZonedDateTime utcZDT = ZonedDateTime.of(utcDateTime, utcZone);
+            ZonedDateTime localZDT = ZonedDateTime.ofInstant(utcZDT.toInstant(), zoneIdLocal);
+            String startDate = localZDT.toLocalDateTime().toLocalDate().toString();
+            String startTime = localZDT.toLocalDateTime().toLocalTime().toString();
+            String appointmentStart = startDate + " " + startTime;
+
+            dateTime = result.getString("End");
+            utcSplit = dateTime.split(" ");
+            utcDate = LocalDate.parse(utcSplit[0]);
+            utcTime = LocalTime.parse(utcSplit[1]);
+            utcDateTime = LocalDateTime.of(utcDate,utcTime);
+            zoneIdLocal = ZoneId.systemDefault();
+            utcZone = ZoneId.of("UTC");
+            utcZDT = ZonedDateTime.of(utcDateTime, utcZone);
+            localZDT = ZonedDateTime.ofInstant(utcZDT.toInstant(), zoneIdLocal);
+            String endDate = localZDT.toLocalDateTime().toLocalDate().toString();
+            String endTime = localZDT.toLocalDateTime().toLocalTime().toString();
+            String appointmentEnd = endDate + " " + endTime;
+
             int userID = result.getInt("User_ID");
             int customerID = result.getInt("Customer_ID");
             int contactID = result.getInt("Contact_ID");
@@ -207,8 +312,33 @@ public class AppointmentDAO {
             String appointmentDescription = result.getString("Description");
             String appointmentLocation = result.getString("Location");
             String appointmentType = result.getString("Type");
-            String appointmentStart = result.getString("Start");
-            String appointmentEnd = result.getString("End");
+
+            String dateTime = result.getString("Start");
+            String[] utcSplit = dateTime.split(" ");
+            LocalDate utcDate = LocalDate.parse(utcSplit[0]);
+            LocalTime utcTime = LocalTime.parse(utcSplit[1]);
+            LocalDateTime utcDateTime = LocalDateTime.of(utcDate,utcTime);
+            ZoneId zoneIdLocal = ZoneId.systemDefault();
+            ZoneId utcZone = ZoneId.of("UTC");
+            ZonedDateTime utcZDT = ZonedDateTime.of(utcDateTime, utcZone);
+            ZonedDateTime localZDT = ZonedDateTime.ofInstant(utcZDT.toInstant(), zoneIdLocal);
+            String startDate = localZDT.toLocalDateTime().toLocalDate().toString();
+            String startTime = localZDT.toLocalDateTime().toLocalTime().toString();
+            String appointmentStart = startDate + " " + startTime;
+
+            dateTime = result.getString("End");
+            utcSplit = dateTime.split(" ");
+            utcDate = LocalDate.parse(utcSplit[0]);
+            utcTime = LocalTime.parse(utcSplit[1]);
+            utcDateTime = LocalDateTime.of(utcDate,utcTime);
+            zoneIdLocal = ZoneId.systemDefault();
+            utcZone = ZoneId.of("UTC");
+            utcZDT = ZonedDateTime.of(utcDateTime, utcZone);
+            localZDT = ZonedDateTime.ofInstant(utcZDT.toInstant(), zoneIdLocal);
+            String endDate = localZDT.toLocalDateTime().toLocalDate().toString();
+            String endTime = localZDT.toLocalDateTime().toLocalTime().toString();
+            String appointmentEnd = endDate + " " + endTime;
+
             int userID = result.getInt("User_ID");
             int customerID = result.getInt("Customer_ID");
             int contactID = result.getInt("Contact_ID");

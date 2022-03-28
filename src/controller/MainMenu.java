@@ -53,8 +53,8 @@ public class MainMenu implements Initializable {
             LocalDate apptDate = LocalDate.parse(daySplit[0]);
             LocalTime apptTime = LocalTime.parse(daySplit[1]);
             LocalDateTime apptLDT = LocalDateTime.of(apptDate, apptTime); //appt in UTC
-            ZoneId zoneId = ZoneId.of("UTC");
-            LocalDateTime todayNow = LocalDateTime.now(zoneId);
+            //ZoneId zoneId = ZoneId.of("UTC");
+            LocalDateTime todayNow = LocalDateTime.now();
             LocalDate today = todayNow.toLocalDate();
             LocalTime timeNow = todayNow.toLocalTime();
             LocalTime futureTime = timeNow.plusMinutes(15);
@@ -72,6 +72,14 @@ public class MainMenu implements Initializable {
                     alert.setTitle("Please Advise");
                     alert.setHeaderText("Upcoming Appointment.");
                     alert.setContentText("Appointment: (" + appointment.getAppointmentID() + ") - '" + appointment.getTitle() + "' is happening with the next 15 minutes.");
+                    alert.show();
+                }
+                else
+                {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Please Advise");
+                    alert.setHeaderText("No Upcoming Appointment.");
+                    alert.setContentText("There are currently no appointments happening within the next 15 minutes.");
                     alert.show();
                 }
             }

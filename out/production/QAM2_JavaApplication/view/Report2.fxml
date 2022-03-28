@@ -79,7 +79,7 @@
         <right>
             <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="330.0" prefWidth="350.0" style="-fx-border-color: black; -fx-border-radius: 10; -fx-border-insets: 2; -fx-border-width: 2;" BorderPane.alignment="TOP_CENTER">
                 <center>
-                    <TableView fx:id="apptTable" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="275.0" prefWidth="325.0">
+                    <TableView fx:id="apptTable" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="280.0" prefWidth="325.0">
                         <columns>
                             <TableColumn fx:id="apptID" maxWidth="290.0" prefWidth="50.0" resizable="false" text="ID" />
                             <TableColumn fx:id="apptTitle" maxWidth="290.0" text="Title" />
@@ -98,7 +98,7 @@
                     <Insets />
                 </opaqueInsets>
                 <top>
-                    <HBox alignment="BOTTOM_LEFT" prefHeight="40.0" prefWidth="350.0" style="-fx-spacing: 10;" BorderPane.alignment="CENTER">
+                    <HBox alignment="BOTTOM_LEFT" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="25.0" prefWidth="342.0" style="-fx-spacing: 10;" BorderPane.alignment="CENTER">
                         <children>
                             <Label alignment="TOP_LEFT" opacity="0.8" text="Appointments">
                                 <font>
@@ -108,29 +108,11 @@
                                     <Insets />
                                 </opaqueInsets>
                                 <HBox.margin>
-                                    <Insets bottom="15.0" left="10.0" right="180.0" />
+                                    <Insets left="10.0" right="180.0" />
                                 </HBox.margin>
                             </Label>
                         </children></HBox>
                 </top>
-                <bottom>
-                    <HBox alignment="BOTTOM_RIGHT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="40.0" prefWidth="350.0" spacing="15.0" BorderPane.alignment="CENTER">
-                        <opaqueInsets>
-                            <Insets />
-                        </opaqueInsets>
-                        <BorderPane.margin>
-                            <Insets right="10.0" />
-                        </BorderPane.margin>
-                        <padding>
-                            <Insets bottom="5.0" />
-                        </padding></HBox>
-                </bottom>
-                <left>
-                    <VBox prefHeight="200.0" prefWidth="10.0" BorderPane.alignment="CENTER" />
-                </left>
-                <right>
-                    <VBox prefHeight="200.0" prefWidth="10.0" BorderPane.alignment="CENTER" />
-                </right>
                 <BorderPane.margin>
                     <Insets right="20.0" top="-2.0" />
                 </BorderPane.margin>

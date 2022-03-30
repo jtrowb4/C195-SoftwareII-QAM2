@@ -40,12 +40,11 @@ public class ModifyAppointment implements Initializable {
     public DatePicker datePicker;
     public TextField locationText;
     public ComboBox<LocalTime> startTimeCombo;
-    public Label currUserLabel;
-    public Label prevUserLabel;
 
     public static ObservableList<LocalTime> appointments = FXCollections.observableArrayList();
 
     public static ObservableList<Appointment> incomingAppointment = FXCollections.observableArrayList();
+    public ComboBox<User> userNameCombo;
 
 
     /**
@@ -56,6 +55,7 @@ public class ModifyAppointment implements Initializable {
 
         System.out.println("Loaded Modify Appointment");
         try {
+            userNameCombo.setItems(UserDAO.displayAllUsers());
             customerNameCombo.setItems(CustomerDAO.displayAllCustomers());
             customerNameCombo.setVisibleRowCount(5);
             contactCombo.setItems(ContactDAO.displayAllContacts());
@@ -67,8 +67,6 @@ public class ModifyAppointment implements Initializable {
             apptTypes.add(3, "Business Meeting");
             apptTypeCombo.setItems(apptTypes);
             startTimeCombo.setItems(listAppointmentTimes());
-
-            currUserLabel.setText("Current User: (UserID - " + LoginScreen.userID + " | UserName - " + LoginScreen.user + ")");
 
 
         } catch (Exception e) {
@@ -108,12 +106,19 @@ public class ModifyAppointment implements Initializable {
         int contactID = appointment.getContactID();
         for (Contact contact : contactCombo.getItems()
         ) {
-            if (contactID == contact.getContactID()) {
+            if (contactID == contact.getContactID()
+            ) {
                 contactCombo.setValue(contact);
             }
         }
+        int userID = appointment.getUserID();
+        for (User user: userNameCombo.getItems()
+        ){
+            if(userID == user.getUserID()){
+                userNameCombo.setValue(user);
+            }
 
-        prevUserLabel.setText("Previous User: (UserID - " + appointment.getUserID() + ")");
+        }
 
         String dateTime = appointment.getStartTime();
         String dateSplit[] = dateTime.split(" ");
@@ -178,6 +183,7 @@ public class ModifyAppointment implements Initializable {
                 String customerName = customerNameCombo.getValue().toString();
                 int contact = contactCombo.getValue().getContactID();
                 String apptType = apptTypeCombo.getValue();
+                int userID = userNameCombo.getSelectionModel().getSelectedItem().getUserID();
 
                 //set date & time
                 LocalDate date = datePicker.getValue();
@@ -233,9 +239,6 @@ public class ModifyAppointment implements Initializable {
                         }
                     }
                 }
-
-
-                int userID = LoginScreen.userID;
 
                 //Validate Entries
                 Pattern specialChar = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);

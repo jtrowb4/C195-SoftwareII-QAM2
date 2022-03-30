@@ -13,6 +13,8 @@ import javafx.stage.Stage;
 import model.Appointment;
 import model.Contact;
 import model.Customer;
+import model.User;
+
 import java.io.IOException;
 import java.net.URL;
 import java.time.*;
@@ -39,7 +41,7 @@ public class AddAppointment implements Initializable {
     public TextField locationText;
     public static ObservableList<LocalTime> appointments = FXCollections.observableArrayList();
     public ComboBox<LocalTime> startTimeCombo;
-    public Label userLabel;
+    public ComboBox<User> userNameCombo;
 
     /**
      * Initialize scene
@@ -49,6 +51,7 @@ public class AddAppointment implements Initializable {
 
         System.out.println("Loaded Add Appointment");
         try {
+            userNameCombo.setItems(UserDAO.displayAllUsers());
             customerNameCombo.setItems(CustomerDAO.displayAllCustomers());
             customerNameCombo.setVisibleRowCount(5);
             contactCombo.setItems(ContactDAO.displayAllContacts());
@@ -60,7 +63,6 @@ public class AddAppointment implements Initializable {
             apptTypes.add(3,"Business Meeting");
             apptTypeCombo.setItems(apptTypes);
             startTimeCombo.setItems(listAppointmentTimes());
-            userLabel.setText("Current User: (UserID - " + LoginScreen.userID + " | UserName - " + LoginScreen.user + ")");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -113,6 +115,7 @@ public class AddAppointment implements Initializable {
             String customerName = customerNameCombo.getValue().toString();
             int contact = contactCombo.getValue().getContactID();
             String apptType = apptTypeCombo.getValue();
+            int userID = userNameCombo.getSelectionModel().getSelectedItem().getUserID();
 
             //set date & time
             LocalDate date = datePicker.getValue();
@@ -164,9 +167,6 @@ public class AddAppointment implements Initializable {
                     }
                 }
             }
-
-
-            int userID = LoginScreen.userID;
 
             //Validate Entries
             Pattern specialChar = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);

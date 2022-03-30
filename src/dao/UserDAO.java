@@ -1,5 +1,8 @@
 package dao;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import model.Country;
 import model.User;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -33,4 +36,30 @@ public class UserDAO {
         DBConnector.closeConnection();
         return null;
     }
+
+    private static ObservableList<User> allUsers = FXCollections.observableArrayList();
+    /**
+     * displayAllCountries gets all countries
+     * @return allCountries
+     */
+    public static ObservableList<User> displayAllUsers() throws SQLException, Exception{
+
+        if (allUsers.size() > 0){
+            allUsers.clear();
+        }
+        DBConnector.openConnection();
+        String UserQuery = "SELECT * FROM client_schedule.users";
+        DBQuery.makeQuery(UserQuery);
+        ResultSet result = DBQuery.getResult();
+        while(result.next()){
+            int userID = result.getInt("User_ID");
+            String userName = result.getString("User_Name");
+            String password = result.getString("Password");
+            allUsers.add(new User(userID, userName, password));
+        }
+        DBConnector.closeConnection();
+        return allUsers;
+    }
+
+
 }

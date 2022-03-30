@@ -47,7 +47,7 @@ public class LoginScreen implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
         zoneIDText.setText("'" + ZoneId.systemDefault() + " " + ZoneId.systemDefault().getRules().getOffset(Instant.now()) + "'");
-        System.out.println("QAM2_JavaApplication v1.0.0 Loaded");
+        System.out.println("QAM2_JavaApplication v1.2.0 Loaded");
     }
     /**
      * Login button that ties to UserDAO

@@ -46,6 +46,7 @@ public class MainMenu implements Initializable {
             e.printStackTrace();
         }
 
+        int apptCounter = 0;
         for (Appointment appointment: appointments)
         {
             String apptTimeString = appointment.getStartTime();
@@ -73,15 +74,24 @@ public class MainMenu implements Initializable {
                     alert.setHeaderText("Upcoming Appointment.");
                     alert.setContentText("Appointment: (" + appointment.getAppointmentID() + ") - '" + appointment.getTitle() + "' is happening with the next 15 minutes.");
                     alert.show();
+                    break;
                 }
-                else
+                else if(++apptCounter == appointments.size())
                 {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Please Advise");
                     alert.setHeaderText("No Upcoming Appointment.");
-                    alert.setContentText("There are currently no appointments happening within the next 15 minutes.");
+                    alert.setContentText("There are currently no upcoming appointments happening within the next 15 minutes.");
                     alert.show();
+                    break;
                 }
+            }
+            else if(++apptCounter == appointments.size()){
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Please Advise");
+                alert.setHeaderText("No Upcoming Appointment.");
+                alert.setContentText("There are currently no upcoming appointments happening within the next 15 minutes.");
+                alert.show();
             }
         }
 

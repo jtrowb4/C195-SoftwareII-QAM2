@@ -15,13 +15,13 @@ public class Appointment {
     private String type;
     private String startTime;
     private String endTime;
-    private int userId;
+    private int userID;
     private int customerID;
     private int contactID;
     private String contactName;
 
     public Appointment(int appointmentID, String title, String description, String location, String type,
-                       String startTime, String endTime, int userId, int customerID, int contactID) {
+                       String startTime, String endTime, int userID, int customerID, int contactID) {
         this.appointmentID = appointmentID;
         this.title = title;
         this.description = description;
@@ -29,14 +29,14 @@ public class Appointment {
         this.type = type;
         this.startTime = startTime;
         this.endTime = endTime;
-        this.userId = userId;
+        this.userID = userID;
         this.customerID = customerID;
         this.contactID = contactID;
 
     }
 
     public Appointment(int appointmentID, String title, String description, String location, String type,
-                       String startTime, String endTime, int userId, int customerID, int contactID, String contactName) {
+                       String startTime, String endTime, int userID, int customerID, int contactID, String contactName) {
         this.appointmentID = appointmentID;
         this.title = title;
         this.description = description;
@@ -44,7 +44,7 @@ public class Appointment {
         this.type = type;
         this.startTime = startTime;
         this.endTime = endTime;
-        this.userId = userId;
+        this.userID = userID;
         this.customerID = customerID;
         this.contactID = contactID;
         this.contactName = contactName;
@@ -148,11 +148,11 @@ public class Appointment {
     /**
      * @return the userId
      */
-    public int getUserId() {return userId;}
+    public int getUserID() {return userID;}
     /**
-     * @param userId to set
+     * @param userID to set
      */
-    public void setUserId(int userId) {this.userId = userId;}
+    public void setUserID(int userID) {this.userID = userID;}
     /**
      * @return the contactID
      */

@@ -44,6 +44,8 @@ public class AppointmentMenu implements Initializable {
     public Button deleteAppointmentButton;
     public RadioButton allWeekRadio;
     public RadioButton allMonthRadio;
+    public TableColumn customerID;
+    public TableColumn userID;
 
     /**
      * Initialize scene
@@ -59,6 +61,8 @@ public class AppointmentMenu implements Initializable {
         apptStart.setCellValueFactory(new PropertyValueFactory<>("startTime"));
         apptEnd.setCellValueFactory(new PropertyValueFactory<>("endTime"));
         apptContact.setCellValueFactory(new PropertyValueFactory<>("contactName"));
+        customerID.setCellValueFactory(new PropertyValueFactory<>("customerID"));
+        userID.setCellValueFactory(new PropertyValueFactory<>("userID"));
 
         try {
             apptTable.setItems(AppointmentDAO.displayAllAppointments());

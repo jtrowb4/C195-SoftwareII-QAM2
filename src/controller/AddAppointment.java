@@ -39,6 +39,8 @@ public class AddAppointment implements Initializable {
     public TextField locationText;
     public static ObservableList<LocalTime> appointments = FXCollections.observableArrayList();
     public ComboBox<LocalTime> startTimeCombo;
+    public Label userLabel;
+
     /**
      * Initialize scene
      */
@@ -58,6 +60,7 @@ public class AddAppointment implements Initializable {
             apptTypes.add(3,"Business Meeting");
             apptTypeCombo.setItems(apptTypes);
             startTimeCombo.setItems(listAppointmentTimes());
+            userLabel.setText("User: (UserID - " + LoginScreen.userID + " | UserName - " + LoginScreen.user + ")");
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -12,7 +12,7 @@
                 <Font name="Droid Sans" size="36.0" />
             </font>
         </Label>
-        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="360.0" layoutY="251.0" opacity="0.7" text="QAM2 v1.0.0">
+        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="360.0" layoutY="251.0" opacity="0.7" text="QAM2 v1.1.0">
             <font>
                 <Font name="Droid Sans" size="14.0" />
             </font>

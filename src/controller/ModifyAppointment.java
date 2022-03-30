@@ -13,6 +13,8 @@ import javafx.stage.Stage;
 import model.Appointment;
 import model.Contact;
 import model.Customer;
+import model.User;
+
 import java.io.IOException;
 import java.net.URL;
 import java.time.*;
@@ -37,10 +39,14 @@ public class ModifyAppointment implements Initializable {
     public ComboBox<String> apptTypeCombo;
     public DatePicker datePicker;
     public TextField locationText;
-    public static ObservableList<LocalTime> appointments = FXCollections.observableArrayList();
     public ComboBox<LocalTime> startTimeCombo;
+    public Label currUserLabel;
+    public Label prevUserLabel;
+
+    public static ObservableList<LocalTime> appointments = FXCollections.observableArrayList();
 
     public static ObservableList<Appointment> incomingAppointment = FXCollections.observableArrayList();
+
 
     /**
      * Initialize scene
@@ -61,6 +67,8 @@ public class ModifyAppointment implements Initializable {
             apptTypes.add(3, "Business Meeting");
             apptTypeCombo.setItems(apptTypes);
             startTimeCombo.setItems(listAppointmentTimes());
+
+            currUserLabel.setText("User: (UserID - " + LoginScreen.userID + " | UserName - " + LoginScreen.user + ")");
 
 
         } catch (Exception e) {
@@ -104,6 +112,8 @@ public class ModifyAppointment implements Initializable {
                 contactCombo.setValue(contact);
             }
         }
+
+        prevUserLabel.setText("User: (UserID - " + appointment.getUserID() + ")");
 
         String dateTime = appointment.getStartTime();
         String dateSplit[] = dateTime.split(" ");

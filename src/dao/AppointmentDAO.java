@@ -105,7 +105,7 @@ public class AppointmentDAO {
                 + appointment.getStartTime() + "', '"
                 + appointment.getEndTime() + "', '"
                 + appointment.getCustomerID() + "', '"
-                + appointment.getUserId() + "', '"
+                + appointment.getUserID() + "', '"
                 + appointment.getContactID() + "')";
 
         DBQuery.makeQuery(insertCustomerQuery);
@@ -125,7 +125,7 @@ public class AppointmentDAO {
                         "', Start = '" + appointment.getStartTime() +
                         "', End = '" + appointment.getEndTime() +
                         "', Customer_ID = '" + appointment.getCustomerID() +
-                        "', User_ID = '" + appointment.getUserId() +
+                        "', User_ID = '" + appointment.getUserID() +
                         "', Contact_ID = '" + appointment.getContactID() +
 
                         "' WHERE Appointment_ID = '" + appointment.getAppointmentID() + "'";

@@ -2,8 +2,8 @@
 Author: James Trowbridge
 StudenID: 001399839
 contact: email | jtrowb4@wgu.edu
-application version: v1.0.0
-date: 03.23.2022
+application version: v1.1.0
+date: 03.28.2022
 
 # Title and Purpose
 Title of Project: QAM2 Java Application
@@ -12,10 +12,11 @@ Purpose: The main purpose for this application is to allow the user to schedule 
 It allows the user to add, modify, delete customer profiles. It also allows the user to add, modify, and delete appointments for given customers.
 
 #IDE and Drivers
-IntelliJ v
-JDK v1
-JavaFX v1
-MySQL driver v1
+
+IntelliJ 2021.1.1
+JDK 17.0.1
+JavaFX javafx-sdk-17.0.1
+MySQL driver: mysql-connector-java-8.0.25
 
 #HOW TO
 

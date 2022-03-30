@@ -38,6 +38,7 @@ public class LoginScreen implements Initializable {
     public PasswordField passwordText;
 
     public static int userID;
+    public static String user;
 
     /**
      * Initialize scene
@@ -64,6 +65,7 @@ public class LoginScreen implements Initializable {
            userID = userLoginUserID;
             if ((userLoginName.equals(userName)) && (userLoginPassword.equals(password))){
                System.out.println("Login Success");
+               user= userLoginName;
                logEntry(userName, true);
                Parent root = FXMLLoader.load(getClass().getResource("/view/MainMenu.fxml"));
                Stage stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();

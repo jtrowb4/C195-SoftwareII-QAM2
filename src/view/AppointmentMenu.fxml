@@ -57,6 +57,8 @@
                                 <TableColumn fx:id="apptEnd" maxWidth="290.0" prefWidth="100.0" text="EndTime" />
                                 <TableColumn fx:id="apptLocation" maxWidth="290.0" prefWidth="100.0" text="Location" />
                                 <TableColumn fx:id="apptDescription" maxWidth="290.0" prefWidth="100.0" text="Description" />
+                                <TableColumn fx:id="customerID" maxWidth="290.0" prefWidth="100.0" text="CustomerID" />
+                                <TableColumn fx:id="userID" maxWidth="290.0" prefWidth="100.0" text="UserID" />
                             </columns>
                             <opaqueInsets>
                                 <Insets />

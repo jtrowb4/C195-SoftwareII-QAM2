@@ -68,7 +68,7 @@ public class ModifyAppointment implements Initializable {
             apptTypeCombo.setItems(apptTypes);
             startTimeCombo.setItems(listAppointmentTimes());
 
-            currUserLabel.setText("User: (UserID - " + LoginScreen.userID + " | UserName - " + LoginScreen.user + ")");
+            currUserLabel.setText("Current User: (UserID - " + LoginScreen.userID + " | UserName - " + LoginScreen.user + ")");
 
 
         } catch (Exception e) {
@@ -113,7 +113,7 @@ public class ModifyAppointment implements Initializable {
             }
         }
 
-        prevUserLabel.setText("User: (UserID - " + appointment.getUserID() + ")");
+        prevUserLabel.setText("Previous User: (UserID - " + appointment.getUserID() + ")");
 
         String dateTime = appointment.getStartTime();
         String dateSplit[] = dateTime.split(" ");

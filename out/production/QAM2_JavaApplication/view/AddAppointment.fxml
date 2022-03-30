@@ -195,7 +195,7 @@
                     </Label>
                <Label fx:id="userLabel" text="User: ">
                   <HBox.margin>
-                     <Insets left="125.0" right="10.0" top="20.0" />
+                     <Insets left="100.0" right="10.0" top="20.0" />
                   </HBox.margin>
                   <font>
                      <Font name="Droid Sans" size="12.0" />

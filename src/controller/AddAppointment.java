@@ -60,7 +60,7 @@ public class AddAppointment implements Initializable {
             apptTypes.add(3,"Business Meeting");
             apptTypeCombo.setItems(apptTypes);
             startTimeCombo.setItems(listAppointmentTimes());
-            userLabel.setText("User: (UserID - " + LoginScreen.userID + " | UserName - " + LoginScreen.user + ")");
+            userLabel.setText("Current User: (UserID - " + LoginScreen.userID + " | UserName - " + LoginScreen.user + ")");
 
         } catch (Exception e) {
             e.printStackTrace();
